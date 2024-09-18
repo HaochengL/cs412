@@ -1,0 +1,61 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+}
+
+/* Center the heading */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Style the links */
+nav {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+nav a {
+    color: #2c3e50;
+    text-decoration: none;
+    margin: 0 15px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Style the quote section */
+blockquote {
+    font-size: 1.5em;
+    font-style: italic;
+    text-align: center;
+    color: #34495e;
+    margin: 20px auto;
+    width: 60%;
+}
+
+/* Style the author name */
+footer {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Adjust the image size and center it */
+img {
+    display: block;
+    margin: 20px auto;
+    max-width: 500px;
+    height: auto;
+}
+
+/* Style the footer (creator's information) */
+footer.creator {
+    text-align: center;
+    margin-top: 50px;
+    color: #7f8c8d;
+}

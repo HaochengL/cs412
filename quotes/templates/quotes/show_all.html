@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}All Quotes{% endblock %}
+
+{% block content %}
+    <h2>All Quotes</h2>
+    <ul>
+        {% for quote in quotes %}
+        <li>
+            <blockquote>
+                "{{ quote.quote }}"
+                <footer>&mdash; {{ quote.author }}</footer>
+            </blockquote>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>All Images</h2>
+    <div>
+        {% for image in images %}
+        <img src="{{ image }}" alt="Famous Person Image" style="width: 300px; height: auto; margin: 10px;">
+        {% endfor %}
+    </div>
+{% endblock %}
