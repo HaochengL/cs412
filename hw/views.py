@@ -16,6 +16,15 @@ def home(request):
 
     return render(request, template_name, context)
 
+def about(request):
+    template_name = "hw/about.html"
+
+    context ={
+        'current_time': time.ctime(),
+    }
+
+    return render(request, template_name, context)
+
 ##def home(request):
 
     
