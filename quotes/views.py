@@ -1,20 +1,20 @@
 from django.shortcuts import render
 import random
 
-# Create your views here.
+# Updated quotes - all by Albert Einstein
 quotes = [
-    {"quote": "The only limit to our realization of tomorrow is our doubts of today.", "author": "Franklin D. Roosevelt"},
-    {"quote": "Success is not how high you have climbed, but how you make a positive difference to the world.", "author": "Roy T. Bennett"},
-    {"quote": "In the end, we will remember not the words of our enemies, but the silence of our friends.", "author": "Martin Luther King Jr."},
-    {"quote": "The best way to predict the future is to create it.", "author": "Peter Drucker"}
+    {"quote": "Life is like riding a bicycle. To keep your balance, you must keep moving.", "author": "Albert Einstein"},
+    {"quote": "Imagination is more important than knowledge. For knowledge is limited, whereas imagination embraces the entire world.", "author": "Albert Einstein"},
+    {"quote": "Strive not to be a success, but rather to be of value.", "author": "Albert Einstein"},
+    {"quote": "In the middle of difficulty lies opportunity.", "author": "Albert Einstein"},
 ]
 
 
 images = [
-    "https://static9.depositphotos.com/1319000/1216/i/450/depositphotos_12164661-stock-photo-woman-with-arms-outstretched.jpg",
-    "https://t3.ftcdn.net/jpg/02/52/65/60/240_F_252656083_CL2ijXn7hLLkL7zGnlsR1S2actQ3n9Wq.jpg",
-    "https://t3.ftcdn.net/jpg/02/69/52/30/240_F_269523005_YdDtqmGWtdu8pmnc0hgaJDZlpR9TTSHr.jpg",
-    "https://i0.wp.com/africanparadiseworld.com/wp-content/uploads/2021/04/nature-inspiration.jpg"
+    "https://astrumpeople.com/wp-content/uploads/2016/06/Albert-Einstein-1-768x768.jpeg",
+    "https://www.publicdomainpictures.net/pictures/520000/velka/albert-einstein-1685961420x7b.jpg",
+    "https://www.muraldecal.com/en/img/as645-jpg/folder/products-listado-merchant/wall-stickers-albert-einstein.jpg",
+    "https://images.fineartamerica.com/images/artworkimages/medium/3/albert-einstein-painting-mark-ashkenazi.jpg"
 ]
 
 #main page
@@ -47,8 +47,8 @@ def about(request):
 
     template_name = 'quotes/about.html'
 
-    person_info = "This app showcases quotes and images from a famous figure."
-    bio = "The person whose quotes are displayed here is well-known for their inspiring words."
+    person_info = "Albert Einstein was a theoretical physicist widely acknowledged for developing the theory of relativity, but also known for his insightful thoughts on life and imagination."
+    bio = "The quotes displayed here are all from Albert Einstein, who believed in the power of imagination and the importance of curiosity."
 
     context = {
     'bio': bio,
