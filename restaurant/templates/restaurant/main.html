@@ -1,0 +1,18 @@
+{% extends 'restaurant/base.html' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+    <h2>Welcome to {{ name }}</h2>
+    <p>Location: {{ location }}</p>  <!-- Display location -->
+    
+    <h2>Hours of Operation:</h2>
+    <ul>
+        {% for hour in hours %}
+            <li>{{ hour.day }}: {{ hour.time }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Gallery</h2>
+    <img src="{{ images.0 }}" alt="Restaurant Image">
+{% endblock %}

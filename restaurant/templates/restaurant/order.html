@@ -1,0 +1,44 @@
+{% extends 'restaurant/base.html' %}
+
+{% block title %}Order Food{% endblock %}
+
+{% block content %}
+    <h2>Order Food</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <h3>Menu Items</h3>
+        
+        {% for item, price in menu_items.items %}
+            <div style="margin-bottom: 15px;">
+                <!-- Display item with price -->
+                <input type="checkbox" name="items" value="{{ item }}"> {{ item }} - ${{ price }}<br>
+
+                <!-- Show options for Takoyaki with extra sauce -->
+                {% if item == "Takoyaki" %}
+                    <div style="margin-left: 20px;">
+                        <p>Select options for Takoyaki:</p>
+                        <label><input type="checkbox" name="takoyaki_options" value="Extra Sauce"> Extra Sauce (+$1)</label><br>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    
+
+        <h3>Today's Special: {{ daily_special.0 }} - ${{ daily_special.1 }}</h3>
+
+        <h3>Your Information</h3>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="instructions">Special Instructions:</label>
+        <textarea id="instructions" name="instructions"></textarea><br><br>
+
+        <input type="submit" value="Place Order">
+    </form>
+{% endblock %}
