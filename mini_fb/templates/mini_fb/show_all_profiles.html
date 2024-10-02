@@ -1,0 +1,40 @@
+{% extends 'mini_fb/base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+    <h2>All Profiles</h2>
+    <table class="profile-table">
+        <thead>
+            <tr>
+                <th>Profile Image</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>City</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in profiles %}
+            <tr>
+                <td>
+                    {% if profile.profile_image_url %}
+                        <img src="{{ profile.profile_image_url }}" alt="{{ profile.first_name }}" class="profile-image">
+                    {% else %}
+                        <img src="{% static 'default_profile.png' %}" alt="Default Profile Image" class="profile-image">
+                    {% endif %}
+                </td>
+                <td>{{ profile.first_name }}</td>
+                <td>{{ profile.last_name }}</td>
+                <td>{{ profile.city }}</td>
+                <td>{{ profile.email_address }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No profiles available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% endblock %}
