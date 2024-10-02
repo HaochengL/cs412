@@ -1,0 +1,27 @@
+{% extends 'blog/base.html'%}
+{% block content %}
+<h1>showing all articles</h1>
+<main class="grid-container">
+<div>
+    {% for a in articles %}
+    <article>
+        <h2>{{a.title}}</h2>
+        <h3>by {{a.author}} at {{a.published}}</h3>
+        <img src="{{a.image_url}}" alt="{{a.image_url}}">
+
+        <div>
+            <h2>{{a.title}}</h2>
+            <h3>by {{a.author}} at {{a.published}}</h3>
+            <p>
+                {{a.text}}
+            </p>
+        </div>
+
+        <p>
+            {{a.text}}
+        </p>
+    <article>
+{% endfor %}
+</main>
+
+{% endblock %}
