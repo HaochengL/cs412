@@ -1,3 +1,8 @@
+# models.py
+# Author: Haocheng Liu (easonlhc@bu.edu)
+# Description: This file defines the Profile model for the mini_fb application, 
+# which stores user profile information such as first name, last name, city, email, and profile image URL.
+
 from django.db import models
 
 # Create your models here.

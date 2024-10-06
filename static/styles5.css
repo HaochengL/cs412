@@ -1,6 +1,9 @@
 /* styles5.css */
-
-/* 通用样式 */
+/* 
+Author: Haocheng Liu (easonlhc@bu.edu)
+Description: This CSS file defines styles for the Mini Facebook web application, 
+including layout for the header, footer, and profile display.
+*/
 body {
     margin: 0;
     padding: 0;
