@@ -3,7 +3,7 @@
 # Username: easonlhc@bu.edu
 # Description: This file defines the views for the mini Facebook application.
 #              It includes views to display all profiles, show a single profile's details, 
-#              create a new profile, and create status messages for a profile.
+#              create a new profile, and create status messages for a profile
 
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
