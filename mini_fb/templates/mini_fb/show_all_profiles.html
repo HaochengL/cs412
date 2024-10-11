@@ -1,47 +1,18 @@
-<!-- show_all_profiles.html -->
-<!--
-Author: Haocheng Liu (easonlhc@bu.edu)
-Description: This template displays all the user profiles in a table format, 
-showing profile images, names, city, and email.
--->
-
+<!-- templates/mini_fb/show_all_profiles.html -->
 {% extends 'mini_fb/base.html' %}
-{% load static %}
 
 {% block content %}
-<main>
-    <h2>All Profiles</h2>
-    <table class="profile-table">
-        <thead>
-            <tr>
-                <th>Profile Image</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>City</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for profile in profiles %}
-            <tr>
-                <td>
-                    {% if profile.profile_image_url %}
-                        <img src="{{ profile.profile_image_url }}" alt="{{ profile.first_name }}" class="profile-image">
-                    {% else %}
-                        <img src="{% static 'default_profile.png' %}" alt="Default Profile Image" class="profile-image">
-                    {% endif %}
-                </td>
-                <td>{{ profile.first_name }}</td>
-                <td>{{ profile.last_name }}</td>
-                <td>{{ profile.city }}</td>
-                <td>{{ profile.email_address }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5">No profiles available.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</main>
+<h1>All Profiles</h1>
+<div class="profile-container">
+    {% for profile in profiles %}
+    <div class="profile-card">
+        <a href="{% url 'show_profile' profile.pk %}">
+            <img src="{{ profile.profile_image_url }}" alt="{{ profile.first_name }}" class="profile-image">
+            <div class="profile-info">
+                <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

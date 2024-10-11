@@ -1,0 +1,26 @@
+<!-- templates/mini_fb/show_profile.html -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+<img src="{{ profile.profile_image_url }}" alt="Profile Image" style="width:300px;">
+<p>Email: {{ profile.email_address }}</p>
+<p>City: {{ profile.city }}</p>
+
+<!-- 添加链接以创建新的状态消息 -->
+<p>
+    <a href="{% url 'create_status' profile.pk %}">Add a Status Message</a>
+</p>
+
+<!-- 显示状态消息列表 -->
+<h2>Status Messages</h2>
+<ul>
+    {% for status in profile.get_status_messages %}
+    <li>
+        <p><strong>{{ status.timestamp }}</strong>: {{ status.message }}</p>
+    </li>
+    {% empty %}
+    <p>No status messages.</p>
+    {% endfor %}
+</ul>
+{% endblock %}

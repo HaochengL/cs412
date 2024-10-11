@@ -1,4 +1,4 @@
-<!-- mini_fb/templates/mini_fb/base.html -->
+<!-- templates/mini_fb/base.html -->
 
 {% load static %}
 <!DOCTYPE html>
@@ -12,6 +12,11 @@
 <body>
     <header>
         <h1>Mini Facebook</h1>
+        <nav>
+            <!-- 导航链接 -->
+            <a href="{% url 'show_all_profiles' %}">Home</a>
+            <a href="{% url 'create_profile' %}">Create New Profile</a>
+        </nav>
     </header>
 
     {% block content %}
