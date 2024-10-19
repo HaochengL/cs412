@@ -1,26 +1,48 @@
 <!-- templates/mini_fb/show_profile.html -->
 {% extends 'mini_fb/base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
-<img src="{{ profile.profile_image_url }}" alt="Profile Image" style="width:300px;">
-<p>Email: {{ profile.email_address }}</p>
-<p>City: {{ profile.city }}</p>
+<!-- 引入统一的 CSS 文件 -->
+<link rel="stylesheet" href="{% static 'styles5.css' %}">
 
-<!-- 添加链接以创建新的状态消息 -->
-<p>
-    <a href="{% url 'create_status' profile.pk %}">Add a Status Message</a>
-</p>
+<div class="profile-page">
+    <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+    <img src="{{ profile.profile_image_url }}" alt="Profile Image" class="profile-image-large">
+    <p>Email: {{ profile.email_address }}</p>
+    <p>City: {{ profile.city }}</p>
 
-<!-- 显示状态消息列表 -->
-<h2>Status Messages</h2>
-<ul>
-    {% for status in profile.get_status_messages %}
-    <li>
-        <p><strong>{{ status.timestamp }}</strong>: {{ status.message }}</p>
-    </li>
-    {% empty %}
-    <p>No status messages.</p>
-    {% endfor %}
-</ul>
+    <!-- 添加状态消息和更新个人资料的按钮 -->
+    <div class="button-group">
+        <a href="{% url 'create_status' profile.pk %}" class="btn">Add a Status Message</a>
+        <a href="{% url 'update_profile' profile.pk %}" class="btn btn-secondary">Update Profile</a>
+    </div>
+
+    <!-- 显示状态消息 -->
+    <h2>Status Messages</h2>
+    <div>
+        {% for status in profile.get_status_messages %}
+        <div class="status-message">
+            <p><strong>{{ status.timestamp }}</strong>: {{ status.message }}</p>
+
+            <!-- 更新和删除状态消息的按钮 -->
+            <div class="action-links">
+                <a href="{% url 'update_status' status.pk %}" class="btn btn-sm btn-secondary">Update</a>
+                <a href="{% url 'delete_status' status.pk %}" class="btn btn-sm btn-danger">Delete</a>
+            </div>
+
+            <!-- 显示与状态消息关联的图片 -->
+            {% if status.get_images %}
+            <div class="status-images">
+                {% for img in status.get_images %}
+                <img src="{{ img.image_file.url }}" alt="Image for {{ status.message }}" class="status-image">
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>No status messages.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

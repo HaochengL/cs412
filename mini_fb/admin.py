@@ -6,6 +6,11 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Profile
+from .models import Profile, StatusMessage, Image
 
 admin.site.register(Profile)
+# Register the StatusMessage model
+admin.site.register(StatusMessage)
+
+# Register the Image model
+admin.site.register(Image)

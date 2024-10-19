@@ -67,3 +67,17 @@ class StatusMessage(models.Model):
         Returns a string representation of the StatusMessage, showing the message ID and content.
         """
         return f"StatusMessage(id={self.id}, message='{self.message}')"
+    
+    def get_images(self):
+        '''Return all images associated with this StatusMessage.'''
+        return Image.objects.filter(status_message=self)
+    
+
+from django.db import models
+from .models import StatusMessage  # Import StatusMessage to create FK
+
+class Image(models.Model):
+    '''Encapsulate the idea of an image uploaded to a StatusMessage.'''
+    image_file = models.ImageField(blank=True, upload_to='images/')  # Add this field
+    timestamp = models.DateTimeField(auto_now_add=True)
+    status_message = models.ForeignKey(StatusMessage, on_delete=models.CASCADE)

@@ -3,12 +3,19 @@
 
 {% block content %}
 <h1>Add a Status Message for {{ profile.first_name }} {{ profile.last_name }}</h1>
-<form method="post">
+
+<form method="POST" enctype="multipart/form-data"> <!-- Make sure to add enctype -->
     {% csrf_token %}
     {{ form.as_p }}
+    
+    <!-- Add the file upload input -->
+    <label for="files">Attach Images:</label>
+    <input type="file" name="files" multiple />
+
+    <!-- Submit and Cancel Buttons -->
     <button type="submit">Create Status</button>
     <a href="{% url 'show_profile' profile.pk %}">
         <button type="button">Cancel</button>
-    </a> <!-- 添加一个与“Create Status”样式相同的“Cancel”按钮 -->
+    </a>
 </form>
 {% endblock %}
