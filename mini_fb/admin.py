@@ -6,9 +6,13 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Profile, StatusMessage, Image
+from .models import Profile, StatusMessage, Image, Friend
+
+class FriendAdmin(admin.ModelAdmin):
+    list_display = ('profile1', 'profile2', 'timestamp')
 
 admin.site.register(Profile)
+admin.site.register(Friend, FriendAdmin)
 # Register the StatusMessage model
 admin.site.register(StatusMessage)
 

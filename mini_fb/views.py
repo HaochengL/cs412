@@ -63,3 +63,31 @@ class UpdateProfileView(UpdateView):
 
     def get_success_url(self):
         return reverse('show_profile', kwargs={'pk': self.object.pk})
+
+from django.shortcuts import get_object_or_404, redirect
+from django.views import View
+from django.urls import reverse
+from .models import Profile
+
+class CreateFriendView(View):
+    def dispatch(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        other_pk = self.kwargs.get('other_pk')
+
+        profile = get_object_or_404(Profile, pk=pk)
+        other_profile = get_object_or_404(Profile, pk=other_pk)
+
+        profile.add_friend(other_profile)
+
+        return redirect(reverse('show_profile', args=[pk]))
+
+
+class ShowFriendSuggestionsView(DetailView):
+    model = Profile
+    template_name = 'mini_fb/friend_suggestions.html'
+    context_object_name = 'object'
+
+class ShowNewsFeedView(DetailView):
+    model = Profile
+    template_name = 'mini_fb/news_feed.html'
+    context_object_name = 'object'

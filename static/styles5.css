@@ -31,6 +31,7 @@ footer {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .btn:hover,
@@ -150,11 +151,15 @@ footer {
     height: auto;
     border-radius: 10px;
     margin-bottom: 20px;
+    object-fit: cover; /* 确保图像适应容器 */
 }
 
 /* 按钮组 */
 .button-group {
     margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 /* 状态消息 */
@@ -184,4 +189,137 @@ footer {
     height: 150px;
     object-fit: cover;
     border-radius: 5px;
+}
+
+/* 朋友列表容器 */
+.friends-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: flex-start; /* 确保左对齐 */
+}
+
+/* 单个朋友卡片 */
+.friend-card {
+    width: 150px;
+    text-align: center;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.friend-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* 朋友图片 */
+.friend-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 2px solid #4267B2;
+}
+
+/* 朋友信息 */
+.friend-info h3 {
+    font-size: 18px;
+    margin: 5px 0;
+    color: #333;
+}
+
+.friend-info p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* 新闻源容器 */
+.news-feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* 状态消息头部 */
+.status-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.status-header .friend-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 2px solid #4267B2;
+}
+
+.status-header .status-info h3 {
+    font-size: 18px;
+    margin: 0;
+    color: #333;
+}
+
+.status-header .status-info p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* 状态消息 */
+.status-message {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.status-message p {
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 16px;
+}
+
+/* 状态消息图片 */
+.status-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.status-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* 朋友建议容器 */
+.friend-suggestions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: flex-start; /* 确保左对齐 */
+}
+
+/* 新增的响应式设计 */
+@media (max-width: 1200px) {
+    .friend-card, .friend-suggestions-container .friend-card {
+        width: 45%; /* 两个卡片并排 */
+    }
+}
+
+@media (max-width: 768px) {
+    .friend-card, .friend-suggestions-container .friend-card {
+        width: 90%; /* 单个卡片全宽 */
+    }
 }

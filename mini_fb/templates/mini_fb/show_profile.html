@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block content %}
-<!-- 引入统一的 CSS 文件 -->
 <link rel="stylesheet" href="{% static 'styles5.css' %}">
 
 <div class="profile-page">
@@ -12,36 +11,56 @@
     <p>Email: {{ profile.email_address }}</p>
     <p>City: {{ profile.city }}</p>
 
-    <!-- 添加状态消息和更新个人资料的按钮 -->
+    <!-- 添加状态消息、更新个人资料、朋友建议和新闻源的按钮 -->
     <div class="button-group">
         <a href="{% url 'create_status' profile.pk %}" class="btn">Add a Status Message</a>
         <a href="{% url 'update_profile' profile.pk %}" class="btn btn-secondary">Update Profile</a>
+        <a href="{% url 'friend_suggestions' profile.pk %}" class="btn btn-primary">Friend Suggestions</a>
+        <a href="{% url 'news_feed' profile.pk %}" class="btn btn-info">News Feed</a>
+    </div>
+
+    <!-- 显示朋友列表 -->
+    <h2>Friends</h2>
+    <div class="friends-container">
+        {% for friend in profile.get_friends %}
+            <div class="friend-card">
+                <a href="{% url 'show_profile' friend.pk %}">
+                    <img src="{{ friend.profile_image_url }}" alt="{{ friend.first_name }}" class="friend-image">
+                    <div class="friend-info">
+                        <h3>{{ friend.first_name }} {{ friend.last_name }}</h3>
+                        <p>{{ friend.city }}</p>
+                    </div>
+                </a>
+            </div>
+        {% empty %}
+            <p>No friends to display.</p>
+        {% endfor %}
     </div>
 
     <!-- 显示状态消息 -->
     <h2>Status Messages</h2>
     <div>
         {% for status in profile.get_status_messages %}
-        <div class="status-message">
-            <p><strong>{{ status.timestamp }}</strong>: {{ status.message }}</p>
+            <div class="status-message">
+                <p><strong>{{ status.timestamp }}</strong>: {{ status.message }}</p>
 
-            <!-- 更新和删除状态消息的按钮 -->
-            <div class="action-links">
-                <a href="{% url 'update_status' status.pk %}" class="btn btn-sm btn-secondary">Update</a>
-                <a href="{% url 'delete_status' status.pk %}" class="btn btn-sm btn-danger">Delete</a>
-            </div>
+                <!-- 更新和删除状态消息的按钮 -->
+                <div class="action-links">
+                    <a href="{% url 'update_status' status.pk %}" class="btn btn-sm btn-secondary">Update</a>
+                    <a href="{% url 'delete_status' status.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
 
-            <!-- 显示与状态消息关联的图片 -->
-            {% if status.get_images %}
-            <div class="status-images">
-                {% for img in status.get_images %}
-                <img src="{{ img.image_file.url }}" alt="Image for {{ status.message }}" class="status-image">
-                {% endfor %}
+                <!-- 显示与状态消息关联的图片 -->
+                {% if status.get_images %}
+                    <div class="status-images">
+                        {% for img in status.get_images %}
+                            <img src="{{ img.image_file.url }}" alt="Image for {{ status.message }}" class="status-image">
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
-            {% endif %}
-        </div>
         {% empty %}
-        <p>No status messages.</p>
+            <p>No status messages.</p>
         {% endfor %}
     </div>
 </div>

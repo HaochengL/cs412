@@ -7,6 +7,7 @@
 
 from django.db import models
 from django.urls import reverse
+from django.db.models import Q
 
 class Profile(models.Model):
     """
@@ -24,6 +25,15 @@ class Profile(models.Model):
     city = models.CharField(max_length=50)
     email_address = models.EmailField()
     profile_image_url = models.URLField(blank=True)
+
+    def get_news_feed(self):
+        """获取当前Profile及其朋友的所有StatusMessages按时间降序排序"""
+        friends = self.get_friends()
+        friends_ids = [friend.id for friend in friends]
+        friends_ids.append(self.id)  # 包含自己的StatusMessages
+
+        news_feed = StatusMessage.objects.filter(profile__id__in=friends_ids).select_related('profile').order_by('-timestamp')
+        return news_feed
 
     def __str__(self):
         """
@@ -49,6 +59,59 @@ class Profile(models.Model):
         """
         return reverse('show_profile', kwargs={'pk': self.pk})
     
+    def get_friends(self):
+        """返回该Profile的所有朋友列表"""
+        friends_relations1 = Friend.objects.filter(profile1=self)
+        friends_relations2 = Friend.objects.filter(profile2=self)
+        friends = [relation.profile2 for relation in friends_relations1] + [relation.profile1 for relation in friends_relations2]
+        return friends
+
+    def add_friend(self, other):
+        """添加朋友关系"""
+        if self == other:
+            return  # 不允许自我添加朋友
+        # 检查是否已经是朋友
+        existing_friend = Friend.objects.filter(
+            (models.Q(profile1=self) & models.Q(profile2=other)) |
+            (models.Q(profile1=other) & models.Q(profile2=self))
+        ).first()
+        if not existing_friend:
+            Friend.objects.create(profile1=self, profile2=other)
+    def get_friend_suggestions(self):
+        """获取朋友建议，基于朋友的朋友"""
+        # 获取当前的朋友列表
+        friends = self.get_friends()
+        friends_ids = [friend.id for friend in friends]
+        friends_ids.append(self.id)  # 排除自己
+
+        # 获取朋友的朋友（不包括自己和已有的朋友）
+        friends_of_friends = Friend.objects.filter(
+            Q(profile1__in=friends) | Q(profile2__in=friends)
+        ).exclude(
+            Q(profile1=self) | Q(profile2=self)
+        )
+
+        # 收集所有朋友的朋友的Profile IDs
+        suggestions_ids = set()
+        for friend_relation in friends_of_friends:
+            if friend_relation.profile1 != self and friend_relation.profile1 not in friends:
+                suggestions_ids.add(friend_relation.profile1.id)
+            if friend_relation.profile2 != self and friend_relation.profile2 not in friends:
+                suggestions_ids.add(friend_relation.profile2.id)
+
+        # 返回建议的Profile列表
+        suggestions = Profile.objects.filter(id__in=suggestions_ids).distinct()
+        return suggestions
+
+class Friend(models.Model):
+    profile1 = models.ForeignKey(Profile, related_name="profile1_friends", on_delete=models.CASCADE)
+    profile2 = models.ForeignKey(Profile, related_name="profile2_friends", on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.profile1} & {self.profile2}"
+    
+
 class StatusMessage(models.Model):
     """
     Represents a status message posted by a user profile.
