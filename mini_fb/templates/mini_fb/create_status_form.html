@@ -1,21 +1,18 @@
-<!-- templates/mini_fb/create_status_form.html -->
+<!-- mini_fb/templates/mini_fb/create_status_form.html -->
+
 {% extends 'mini_fb/base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>Add a Status Message for {{ profile.first_name }} {{ profile.last_name }}</h1>
+<h1>Add a Status Message</h1>
 
-<form method="POST" enctype="multipart/form-data"> <!-- Make sure to add enctype -->
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     
-    <!-- Add the file upload input -->
-    <label for="files">Attach Images:</label>
-    <input type="file" name="files" multiple />
-
-    <!-- Submit and Cancel Buttons -->
+    <label for="id_files">Attach Images:</label>
+    <input type="file" name="files" id="id_files" multiple />
+    
     <button type="submit">Create Status</button>
-    <a href="{% url 'show_profile' profile.pk %}">
-        <button type="button">Cancel</button>
-    </a>
 </form>
 {% endblock %}

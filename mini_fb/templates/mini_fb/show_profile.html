@@ -1,31 +1,41 @@
-<!-- templates/mini_fb/show_profile.html -->
+<!-- mini_fb/templates/mini_fb/show_profile.html -->
 {% extends 'mini_fb/base.html' %}
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'styles5.css' %}">
-
 <div class="profile-page">
     <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
-    <img src="{{ profile.profile_image_url }}" alt="Profile Image" class="profile-image-large">
+
+    {% if profile.profile_image %}
+        <img src="{{ profile.profile_image.url }}" alt="{{ profile.first_name }}" class="profile-image-large">
+    {% else %}
+        <img src="{% static 'images/default_profile.jpg' %}" alt="{{ profile.first_name }}" class="profile-image-large">
+    {% endif %}
+
     <p>Email: {{ profile.email_address }}</p>
     <p>City: {{ profile.city }}</p>
 
-    <!-- 添加状态消息、更新个人资料、朋友建议和新闻源的按钮 -->
-    <div class="button-group">
-        <a href="{% url 'create_status' profile.pk %}" class="btn">Add a Status Message</a>
-        <a href="{% url 'update_profile' profile.pk %}" class="btn btn-secondary">Update Profile</a>
-        <a href="{% url 'friend_suggestions' profile.pk %}" class="btn btn-primary">Friend Suggestions</a>
-        <a href="{% url 'news_feed' profile.pk %}" class="btn btn-info">News Feed</a>
-    </div>
+    <!-- Show action buttons only if the logged-in user is the profile owner -->
+    {% if request.user.is_authenticated and request.user == profile.user %}
+        <div class="button-group">
+            <a href="{% url 'create_status' profile.pk %}" class="btn">Add a Status Message</a>
+            <a href="{% url 'update_profile' profile.pk %}" class="btn btn-secondary">Update Profile</a>
+            <a href="{% url 'friend_suggestions' profile.pk %}" class="btn btn-primary">Friend Suggestions</a>
+            <a href="{% url 'news_feed' profile.pk %}" class="btn btn-info">News Feed</a>
+        </div>
+    {% endif %}
 
-    <!-- 显示朋友列表 -->
+    <!-- Friends List -->
     <h2>Friends</h2>
     <div class="friends-container">
         {% for friend in profile.get_friends %}
             <div class="friend-card">
                 <a href="{% url 'show_profile' friend.pk %}">
-                    <img src="{{ friend.profile_image_url }}" alt="{{ friend.first_name }}" class="friend-image">
+                    {% if friend.profile_image %}
+                        <img src="{{ friend.profile_image.url }}" alt="{{ friend.first_name }}" class="friend-image">
+                    {% else %}
+                        <img src="{% static 'images/default_profile.jpg' %}" alt="{{ friend.first_name }}" class="friend-image">
+                    {% endif %}
                     <div class="friend-info">
                         <h3>{{ friend.first_name }} {{ friend.last_name }}</h3>
                         <p>{{ friend.city }}</p>
@@ -37,20 +47,22 @@
         {% endfor %}
     </div>
 
-    <!-- 显示状态消息 -->
+    <!-- Status Messages -->
     <h2>Status Messages</h2>
-    <div>
+    <div class="statusmessages-container">
         {% for status in profile.get_status_messages %}
-            <div class="status-message">
+            <div class="statusmessage">
                 <p><strong>{{ status.timestamp }}</strong>: {{ status.message }}</p>
+                
+                <!-- Show update and delete options only for the profile owner -->
+                {% if request.user.is_authenticated and request.user == profile.user %}
+                    <div class="action-links">
+                        <a href="{% url 'update_status' status.pk %}" class="btn btn-sm btn-secondary">Update</a>
+                        <a href="{% url 'delete_status' status.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                {% endif %}
 
-                <!-- 更新和删除状态消息的按钮 -->
-                <div class="action-links">
-                    <a href="{% url 'update_status' status.pk %}" class="btn btn-sm btn-secondary">Update</a>
-                    <a href="{% url 'delete_status' status.pk %}" class="btn btn-sm btn-danger">Delete</a>
-                </div>
-
-                <!-- 显示与状态消息关联的图片 -->
+                <!-- Display associated images for the status message -->
                 {% if status.get_images %}
                     <div class="status-images">
                         {% for img in status.get_images %}

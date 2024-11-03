@@ -1,14 +1,18 @@
-<!-- templates/mini_fb/create_profile_form.html -->
+<!-- mini_fb/templates/mini_fb/create_profile_form.html -->
+
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
-<h1>Create a New Profile</h1>
-<form method="post">
+<h1>Register and Create Your Profile</h1>
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    
+    <h2>Account Information</h2>
     {{ form.as_p }}
-    <button type="submit">Create Profile</button>
-    <a href="{% url 'show_all_profiles' %}">
-        <button type="button">Cancel</button>
-    </a>
+    
+    <h2>Profile Information</h2>
+    {{ profile_form.as_p }}
+    
+    <button type="submit">Register</button>
 </form>
 {% endblock %}

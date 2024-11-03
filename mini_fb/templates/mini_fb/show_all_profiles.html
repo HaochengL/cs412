@@ -1,17 +1,19 @@
-<!-- templates/mini_fb/show_all_profiles.html -->
+<!-- mini_fb/templates/mini_fb/show_all_profiles.html -->
+
 {% extends 'mini_fb/base.html' %}
 {% load static %}
 
 {% block content %}
-<!-- 引入统一的 CSS 文件 -->
-<link rel="stylesheet" href="{% static 'styles5.css' %}">
-
 <h1>All Profiles</h1>
 <div class="profile-container">
     {% for profile in profiles %}
     <div class="profile-card">
         <a href="{% url 'show_profile' profile.pk %}">
-            <img src="{{ profile.profile_image_url }}" alt="{{ profile.first_name }}" class="profile-image">
+            {% if profile.profile_image %}
+                <img src="{{ profile.profile_image.url }}" alt="{{ profile.first_name }}" class="profile-image">
+            {% else %}
+                <img src="{% static 'images/default_profile.jpg' %}" alt="{{ profile.first_name }}" class="profile-image">
+            {% endif %}
             <div class="profile-info">
                 <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
                 <p>{{ profile.city }}</p>

@@ -1,30 +1,34 @@
-<!-- templates/mini_fb/friend_suggestions.html -->
+<!-- mini_fb/templates/mini_fb/friend_suggestions.html -->
 {% extends 'mini_fb/base.html' %}
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'styles5.css' %}">
+<h1>Friend Suggestions for You</h1>
 
-<div class="profile-page">
-    <h1>Friend Suggestions for {{ object.first_name }} {{ object.last_name }}</h1>
-
-    <div class="friend-suggestions-container">
-        {% for suggestion in object.get_friend_suggestions %}
-            <div class="friend-card">
-                <a href="{% url 'show_profile' suggestion.pk %}">
-                    <img src="{{ suggestion.profile_image_url }}" alt="{{ suggestion.first_name }}" class="friend-image">
-                    <div class="friend-info">
-                        <h3>{{ suggestion.first_name }} {{ suggestion.last_name }}</h3>
-                        <p>{{ suggestion.city }}</p>
-                    </div>
-                </a>
-                <a href="{% url 'add_friend' object.pk suggestion.pk %}" class="btn btn-sm btn-primary">Add Friend</a>
-            </div>
-        {% empty %}
-            <p>No friend suggestions available.</p>
-        {% endfor %}
-    </div>
-
-    <a href="{% url 'show_profile' object.pk %}" class="btn btn-secondary">Back to Profile</a>
+<div class="friend-suggestions-container">
+    {% for suggestion in profile.get_friend_suggestions %}
+        <div class="friend-card">
+            <a href="{% url 'show_profile' suggestion.pk %}">
+                {% if suggestion.profile_image %}
+                    <img src="{{ suggestion.profile_image.url }}" alt="{{ suggestion.first_name }}" class="friend-image">
+                {% else %}
+                    <img src="{% static 'default_profile.jpg' %}" alt="{{ suggestion.first_name }}" class="friend-image">
+                {% endif %}
+                <div class="friend-info">
+                    <h3>{{ suggestion.first_name }} {{ suggestion.last_name }}</h3>
+                    <p>{{ suggestion.city }}</p>
+                </div>
+            </a>
+            <!-- 使用表单发送 POST 请求 -->
+            <form method="POST" action="{% url 'add_friend' profile.pk suggestion.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-primary">Add Friend</button>
+            </form>
+        </div>
+    {% empty %}
+        <p>No friend suggestions available.</p>
+    {% endfor %}
 </div>
+
+<a href="{% url 'show_profile' profile.pk %}" class="btn btn-secondary">Back to Profile</a>
 {% endblock %}

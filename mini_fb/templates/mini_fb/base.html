@@ -1,4 +1,4 @@
-<!-- templates/mini_fb/base.html -->
+<!-- mini_fb/templates/mini_fb/base.html -->
 
 {% load static %}
 <!DOCTYPE html>
@@ -6,21 +6,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Mini Facebook</title>
-    <!-- 引用你的 styles5.css 文件 -->
     <link rel="stylesheet" href="{% static 'styles5.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <header>
         <h1>Mini Facebook</h1>
         <nav>
-            <!-- 导航链接 -->
-            <a href="{% url 'show_all_profiles' %}">Home</a>
-            <a href="{% url 'create_profile' %}">Create New Profile</a>
+            <ul>
+                <!-- 不依赖身份验证状态的链接 -->
+                <li><a href="{% url 'show_all_profiles' %}">Home</a></li>
+                <li><a href="{% url 'create_profile' %}">Create New Profile</a></li>
+                
+                <!-- 依赖身份验证状态的链接 -->
+                {% if request.user.is_authenticated %}
+                    <li>
+                        <!-- 注销表单 -->
+                        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="link-button">Log out</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Log in</a></li>
+                {% endif %}
+            </ul>
+            
+            <!-- 显示当前登录用户 -->
+            {% if request.user.is_authenticated %}
+                <p>Logged in as: {{ request.user.username }}</p>
+            {% else %}
+                <p>Not logged in.</p>
+            {% endif %}
         </nav>
     </header>
 
-    {% block content %}
-    {% endblock %}
+    <!-- 显示 Django 消息 -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
     <footer>
         <p>Created By Haocheng Liu (easonlhc@bu.edu)</p>

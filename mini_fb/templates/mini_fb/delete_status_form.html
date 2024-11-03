@@ -1,14 +1,14 @@
+<!-- mini_fb/templates/mini_fb/delete_status_form.html -->
+
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
-    <h1>Delete Status Message</h1>
-    <p>Are you sure you want to delete this status message?</p>
-    <p>{{ object.message }}</p>
-    <form method="POST">
-        {% csrf_token %}
-        <button type="submit">Yes, Delete</button>
-    </form>
-    <a href="{% url 'show_profile' object.profile.pk %}">
-        <button type="button">Cancel</button>
-    </a>
+<h1>Delete Status Message</h1>
+<p>Are you sure you want to delete this status message?</p>
+<p>{{ status.message }}</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Yes, Delete</button>
+</form>
+<a href="{% url 'show_profile' status.profile.pk %}">Cancel</a>
 {% endblock %}

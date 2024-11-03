@@ -1,39 +1,40 @@
-<!-- templates/mini_fb/news_feed.html -->
+<!-- mini_fb/templates/mini_fb/news_feed.html -->
+
 {% extends 'mini_fb/base.html' %}
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'styles5.css' %}">
+<h1>Your News Feed</h1>
 
-<div class="profile-page">
-    <h1>{{ object.first_name }} {{ object.last_name }}'s News Feed</h1>
-
-    <div class="news-feed-container">
-        {% for status in object.get_news_feed %}
-            <div class="status-message">
-                <div class="status-header">
-                    <img src="{{ status.profile.profile_image_url }}" alt="{{ status.profile.first_name }}" class="friend-image">
-                    <div class="status-info">
-                        <h3>{{ status.profile.first_name }} {{ status.profile.last_name }}</h3>
-                        <p>{{ status.timestamp }}</p>
-                    </div>
-                </div>
-                <p>{{ status.message }}</p>
-
-                <!-- 显示与状态消息关联的图片 -->
-                {% if status.get_images %}
-                    <div class="status-images">
-                        {% for img in status.get_images %}
-                            <img src="{{ img.image_file.url }}" alt="Image for {{ status.message }}" class="status-image">
-                        {% endfor %}
-                    </div>
+<div class="news-feed-container">
+    {% for status in profile.get_news_feed %}
+        <div class="status-message">
+            <div class="status-header">
+                {% if status.profile.profile_image %}
+                    <img src="{{ status.profile.profile_image.url }}" alt="{{ status.profile.first_name }}" class="friend-image">
+                {% else %}
+                    <img src="{% static 'default_profile.jpg' %}" alt="{{ status.profile.first_name }}" class="friend-image">
                 {% endif %}
+                <div class="status-info">
+                    <h3>{{ status.profile.first_name }} {{ status.profile.last_name }}</h3>
+                    <p>{{ status.timestamp|date:"F j, Y, g:i a" }}</p>
+                </div>
             </div>
-        {% empty %}
-            <p>No status messages to display.</p>
-        {% endfor %}
-    </div>
+            <p>{{ status.message }}</p>
 
-    <a href="{% url 'show_profile' object.pk %}" class="btn btn-secondary">Back to Profile</a>
+            <!-- Display associated images -->
+            {% if status.get_images %}
+                <div class="status-images">
+                    {% for img in status.get_images %}
+                        <img src="{{ img.image_file.url }}" alt="Image for {{ status.message }}" class="status-image">
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No status messages to display.</p>
+    {% endfor %}
 </div>
+
+<a href="{% url 'show_profile' profile.pk %}" class="btn btn-secondary">Back to Profile</a>
 {% endblock %}
