@@ -12,15 +12,14 @@
                 {% if suggestion.profile_image %}
                     <img src="{{ suggestion.profile_image.url }}" alt="{{ suggestion.first_name }}" class="friend-image">
                 {% else %}
-                    <img src="{% static 'default_profile.jpg' %}" alt="{{ suggestion.first_name }}" class="friend-image">
+                    <img src="{% static 'images/default_profile.jpg' %}" alt="{{ suggestion.first_name }}" class="friend-image">
                 {% endif %}
                 <div class="friend-info">
                     <h3>{{ suggestion.first_name }} {{ suggestion.last_name }}</h3>
                     <p>{{ suggestion.city }}</p>
                 </div>
             </a>
-            <!-- 使用表单发送 POST 请求 -->
-            <form method="POST" action="{% url 'add_friend' profile.pk suggestion.pk %}">
+            <form method="POST" action="{% url 'add_friend' suggestion.pk %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-sm btn-primary">Add Friend</button>
             </form>

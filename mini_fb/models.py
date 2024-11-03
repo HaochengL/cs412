@@ -1,34 +1,20 @@
 # mini_fb/models.py
 
-# Author: Haocheng Liu (easonlhc@bu.edu)
-# Description: Defines the Profile, Friend, StatusMessage, and Image models for the Mini Facebook application.
-#              The Profile model is now associated with Django's User model for authentication purposes.
-
-# mini_fb/models.py
-
 from django.db import models
 from django.urls import reverse
 from django.db.models import Q
-from django.contrib.auth.models import User  # Import User model
+from django.contrib.auth.models import User
 
 class Profile(models.Model):
     """
     Represents a user profile in the Mini Facebook application.
-
-    Attributes:
-    user (OneToOneField): The associated Django User for authentication.
-    first_name (str): The user's first name.
-    last_name (str): The user's last name.
-    city (str): The city where the user resides.
-    email_address (str): The user's email address.
-    profile_image (ImageField): The user's profile image.
     """
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  # Temporarily nullable
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     city = models.CharField(max_length=50)
     email_address = models.EmailField()
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)  # Changed from URLField to ImageField
+    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
 
     def get_news_feed(self):
         """Retrieve all StatusMessages for this Profile and its friends, ordered by timestamp descending."""
@@ -95,14 +81,7 @@ class Profile(models.Model):
         return suggestions
 
 class Friend(models.Model):
-    """
-    Represents a friendship relation between two Profiles.
-
-    Attributes:
-    profile1 (ForeignKey): One Profile in the friendship.
-    profile2 (ForeignKey): The other Profile in the friendship.
-    timestamp (DateTime): When the friendship was established.
-    """
+    """Represents a friendship relation between two Profiles."""
     profile1 = models.ForeignKey(Profile, related_name="profile1_friends", on_delete=models.CASCADE)
     profile2 = models.ForeignKey(Profile, related_name="profile2_friends", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -115,14 +94,7 @@ class Friend(models.Model):
         unique_together = ('profile1', 'profile2')  # Prevent duplicate friendships
 
 class StatusMessage(models.Model):
-    """
-    Represents a status message posted by a Profile.
-
-    Attributes:
-    timestamp (DateTime): When the status message was created.
-    message (str): The content of the status message.
-    profile (ForeignKey): The Profile that posted the status message.
-    """
+    """Represents a status message posted by a Profile."""
     timestamp = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -136,14 +108,7 @@ class StatusMessage(models.Model):
         return Image.objects.filter(status_message=self)
 
 class Image(models.Model):
-    """
-    Represents an image uploaded to a StatusMessage.
-
-    Attributes:
-    image_file (ImageField): The uploaded image file.
-    timestamp (DateTime): When the image was uploaded.
-    status_message (ForeignKey): The StatusMessage associated with this image.
-    """
+    """Represents an image uploaded to a StatusMessage."""
     image_file = models.ImageField(upload_to='images/', blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     status_message = models.ForeignKey(StatusMessage, on_delete=models.CASCADE)

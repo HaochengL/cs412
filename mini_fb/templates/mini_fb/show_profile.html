@@ -18,10 +18,10 @@
     <!-- Show action buttons only if the logged-in user is the profile owner -->
     {% if request.user.is_authenticated and request.user == profile.user %}
         <div class="button-group">
-            <a href="{% url 'create_status' profile.pk %}" class="btn">Add a Status Message</a>
-            <a href="{% url 'update_profile' profile.pk %}" class="btn btn-secondary">Update Profile</a>
-            <a href="{% url 'friend_suggestions' profile.pk %}" class="btn btn-primary">Friend Suggestions</a>
-            <a href="{% url 'news_feed' profile.pk %}" class="btn btn-info">News Feed</a>
+            <a href="{% url 'create_status' %}" class="btn">Add a Status Message</a>
+            <a href="{% url 'update_profile' %}" class="btn btn-secondary">Update Profile</a>
+            <a href="{% url 'friend_suggestions' %}" class="btn btn-primary">Friend Suggestions</a>
+            <a href="{% url 'news_feed' %}" class="btn btn-info">News Feed</a>
         </div>
     {% endif %}
 
