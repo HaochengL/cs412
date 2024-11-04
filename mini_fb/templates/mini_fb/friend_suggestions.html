@@ -6,9 +6,9 @@
 <h1>Friend Suggestions for You</h1>
 
 <div class="friend-suggestions-container">
-    {% for suggestion in profile.get_friend_suggestions %}
+    {% for suggestion in suggested_friends %}
         <div class="friend-card">
-            <a href="{% url 'show_profile' suggestion.pk %}">
+            <a href="{% url 'show_profile' pk=suggestion.pk %}">
                 {% if suggestion.profile_image %}
                     <img src="{{ suggestion.profile_image.url }}" alt="{{ suggestion.first_name }}" class="friend-image">
                 {% else %}
@@ -19,7 +19,7 @@
                     <p>{{ suggestion.city }}</p>
                 </div>
             </a>
-            <form method="POST" action="{% url 'add_friend' suggestion.pk %}">
+            <form method="POST" action="{% url 'add_friend' profile_pk=profile.pk other_pk=suggestion.pk %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-sm btn-primary">Add Friend</button>
             </form>
@@ -29,5 +29,5 @@
     {% endfor %}
 </div>
 
-<a href="{% url 'show_profile' profile.pk %}" class="btn btn-secondary">Back to Profile</a>
+<a href="{% url 'show_profile' pk=profile.pk %}" class="btn btn-secondary">Back to Profile</a>
 {% endblock %}

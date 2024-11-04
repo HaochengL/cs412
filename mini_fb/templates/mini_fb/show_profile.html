@@ -18,10 +18,10 @@
     <!-- Show action buttons only if the logged-in user is the profile owner -->
     {% if request.user.is_authenticated and request.user == profile.user %}
         <div class="button-group">
-            <a href="{% url 'create_status' %}" class="btn">Add a Status Message</a>
-            <a href="{% url 'update_profile' %}" class="btn btn-secondary">Update Profile</a>
-            <a href="{% url 'friend_suggestions' %}" class="btn btn-primary">Friend Suggestions</a>
-            <a href="{% url 'news_feed' %}" class="btn btn-info">News Feed</a>
+            <a href="{% url 'create_status' profile_pk=profile.pk %}" class="btn">Add a Status Message</a>
+            <a href="{% url 'update_profile' pk=profile.pk %}" class="btn btn-secondary">Update Profile</a>
+            <a href="{% url 'friend_suggestions' pk=profile.pk %}" class="btn btn-primary">Friend Suggestions</a>
+            <a href="{% url 'news_feed' pk=profile.pk %}" class="btn btn-info">News Feed</a>
         </div>
     {% endif %}
 
@@ -30,7 +30,7 @@
     <div class="friends-container">
         {% for friend in profile.get_friends %}
             <div class="friend-card">
-                <a href="{% url 'show_profile' friend.pk %}">
+                <a href="{% url 'show_profile' pk=friend.pk %}">
                     {% if friend.profile_image %}
                         <img src="{{ friend.profile_image.url }}" alt="{{ friend.first_name }}" class="friend-image">
                     {% else %}
@@ -57,8 +57,8 @@
                 <!-- Show update and delete options only for the profile owner -->
                 {% if request.user.is_authenticated and request.user == profile.user %}
                     <div class="action-links">
-                        <a href="{% url 'update_status' status.pk %}" class="btn btn-sm btn-secondary">Update</a>
-                        <a href="{% url 'delete_status' status.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="{% url 'update_status' pk=status.pk %}" class="btn btn-sm btn-secondary">Update</a>
+                        <a href="{% url 'delete_status' pk=status.pk %}" class="btn btn-sm btn-danger">Delete</a>
                     </div>
                 {% endif %}
 

@@ -8,8 +8,16 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     """
     Represents a user profile in the Mini Facebook application.
+    
+    Attributes:
+        user (ForeignKey): The associated Django User for authentication.
+        first_name (str): The user's first name.
+        last_name (str): The user's last name.
+        city (str): The city where the user resides.
+        email_address (str): The user's email address.
+        profile_image (ImageField): The user's profile image.
     """
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profiles')
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     city = models.CharField(max_length=50)
@@ -48,13 +56,21 @@ class Profile(models.Model):
         """Add a friendship relation between this Profile and another Profile."""
         if self == other:
             return  # Prevent self-friending
+
+        # Ensure consistent ordering to prevent duplicate friendships
+        if self.id < other.id:
+            profile1, profile2 = self, other
+        else:
+            profile1, profile2 = other, self
+
         # Check if the friendship already exists
         existing_friend = Friend.objects.filter(
-            (Q(profile1=self) & Q(profile2=other)) |
-            (Q(profile1=other) & Q(profile2=self))
+            profile1=profile1,
+            profile2=profile2
         ).first()
+
         if not existing_friend:
-            Friend.objects.create(profile1=self, profile2=other)
+            Friend.objects.create(profile1=profile1, profile2=profile2)
 
     def get_friend_suggestions(self):
         """Return a list of Profile objects that are suggested friends."""
@@ -81,7 +97,14 @@ class Profile(models.Model):
         return suggestions
 
 class Friend(models.Model):
-    """Represents a friendship relation between two Profiles."""
+    """
+    Represents a friendship relation between two Profiles.
+    
+    Attributes:
+        profile1 (ForeignKey): One Profile in the friendship.
+        profile2 (ForeignKey): The other Profile in the friendship.
+        timestamp (DateTime): When the friendship was established.
+    """
     profile1 = models.ForeignKey(Profile, related_name="profile1_friends", on_delete=models.CASCADE)
     profile2 = models.ForeignKey(Profile, related_name="profile2_friends", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -94,7 +117,14 @@ class Friend(models.Model):
         unique_together = ('profile1', 'profile2')  # Prevent duplicate friendships
 
 class StatusMessage(models.Model):
-    """Represents a status message posted by a Profile."""
+    """
+    Represents a status message posted by a Profile.
+    
+    Attributes:
+        timestamp (DateTime): When the status message was created.
+        message (str): The content of the status message.
+        profile (ForeignKey): The Profile that posted the status message.
+    """
     timestamp = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -108,7 +138,14 @@ class StatusMessage(models.Model):
         return Image.objects.filter(status_message=self)
 
 class Image(models.Model):
-    """Represents an image uploaded to a StatusMessage."""
+    """
+    Represents an image uploaded to a StatusMessage.
+    
+    Attributes:
+        image_file (ImageField): The uploaded image file.
+        timestamp (DateTime): When the image was uploaded.
+        status_message (ForeignKey): The StatusMessage associated with this image.
+    """
     image_file = models.ImageField(upload_to='images/', blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     status_message = models.ForeignKey(StatusMessage, on_delete=models.CASCADE)
