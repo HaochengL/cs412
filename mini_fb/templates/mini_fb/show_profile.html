@@ -15,17 +15,17 @@
     <p>Email: {{ profile.email_address }}</p>
     <p>City: {{ profile.city }}</p>
 
-    <!-- Show action buttons only if the logged-in user is the profile owner -->
+    <!-- 仅当登录用户是该 Profile 的所有者时显示操作按钮 -->
     {% if request.user.is_authenticated and request.user == profile.user %}
         <div class="button-group">
-            <a href="{% url 'create_status' profile_pk=profile.pk %}" class="btn">Add a Status Message</a>
-            <a href="{% url 'update_profile' pk=profile.pk %}" class="btn btn-secondary">Update Profile</a>
-            <a href="{% url 'friend_suggestions' pk=profile.pk %}" class="btn btn-primary">Friend Suggestions</a>
-            <a href="{% url 'news_feed' pk=profile.pk %}" class="btn btn-info">News Feed</a>
+            <a href="{% url 'status/create_status' %}" class="btn">Add a Status Message</a>
+            <a href="{% url 'profile/update' %}" class="btn btn-secondary">Update Profile</a>
+            <a href="{% url 'profile/friend_suggestions' %}" class="btn btn-primary">Friend Suggestions</a>
+            <a href="{% url 'profile/news_feed' %}" class="btn btn-info">News Feed</a>
         </div>
     {% endif %}
 
-    <!-- Friends List -->
+    <!-- 朋友列表 -->
     <h2>Friends</h2>
     <div class="friends-container">
         {% for friend in profile.get_friends %}
@@ -47,14 +47,14 @@
         {% endfor %}
     </div>
 
-    <!-- Status Messages -->
+    <!-- 状态消息 -->
     <h2>Status Messages</h2>
     <div class="statusmessages-container">
         {% for status in profile.get_status_messages %}
             <div class="statusmessage">
                 <p><strong>{{ status.timestamp }}</strong>: {{ status.message }}</p>
                 
-                <!-- Show update and delete options only for the profile owner -->
+                <!-- 仅当登录用户是该 Profile 的所有者时显示更新和删除选项 -->
                 {% if request.user.is_authenticated and request.user == profile.user %}
                     <div class="action-links">
                         <a href="{% url 'update_status' pk=status.pk %}" class="btn btn-sm btn-secondary">Update</a>
@@ -62,7 +62,7 @@
                     </div>
                 {% endif %}
 
-                <!-- Display associated images for the status message -->
+                <!-- 显示与状态消息关联的图片 -->
                 {% if status.get_images %}
                     <div class="status-images">
                         {% for img in status.get_images %}

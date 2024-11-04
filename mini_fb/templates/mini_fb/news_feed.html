@@ -7,13 +7,13 @@
 <h1>Your News Feed</h1>
 
 <div class="news-feed-container">
-    {% for status in profile.get_news_feed %}
+    {% for status in news_feed %}
         <div class="status-message">
             <div class="status-header">
                 {% if status.profile.profile_image %}
                     <img src="{{ status.profile.profile_image.url }}" alt="{{ status.profile.first_name }}" class="friend-image">
                 {% else %}
-                    <img src="{% static 'default_profile.jpg' %}" alt="{{ status.profile.first_name }}" class="friend-image">
+                    <img src="{% static 'images/default_profile.jpg' %}" alt="{{ status.profile.first_name }}" class="friend-image">
                 {% endif %}
                 <div class="status-info">
                     <h3>{{ status.profile.first_name }} {{ status.profile.last_name }}</h3>
@@ -22,7 +22,7 @@
             </div>
             <p>{{ status.message }}</p>
 
-            <!-- Display associated images -->
+            <!-- 显示与状态消息关联的图片 -->
             {% if status.get_images %}
                 <div class="status-images">
                     {% for img in status.get_images %}
@@ -36,5 +36,5 @@
     {% endfor %}
 </div>
 
-<a href="{% url 'show_profile' profile.pk %}" class="btn btn-secondary">Back to Profile</a>
+<a href="{% url 'show_profile' pk=profile.pk %}" class="btn btn-secondary">Back to Profile</a>
 {% endblock %}
