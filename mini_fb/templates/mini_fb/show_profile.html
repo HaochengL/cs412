@@ -18,10 +18,11 @@
     <!-- 仅当登录用户是该 Profile 的所有者时显示操作按钮 -->
     {% if request.user.is_authenticated and request.user == profile.user %}
         <div class="button-group">
-            <a href="{% url 'status/create_status' %}" class="btn">Add a Status Message</a>
-            <a href="{% url 'profile/update' %}" class="btn btn-secondary">Update Profile</a>
-            <a href="{% url 'profile/friend_suggestions' %}" class="btn btn-primary">Friend Suggestions</a>
-            <a href="{% url 'profile/news_feed' %}" class="btn btn-info">News Feed</a>
+            <!-- 通过查询参数传递 pk -->
+            <a href="{% url 'status/create_status' %}?pk={{ profile.pk }}" class="btn">Add a Status Message</a>
+            <a href="{% url 'profile/update' %}?pk={{ profile.pk }}" class="btn btn-secondary">Update Profile</a>
+            <a href="{% url 'profile/friend_suggestions' %}?pk={{ profile.pk }}" class="btn btn-primary">Friend Suggestions</a>
+            <a href="{% url 'profile/news_feed' %}?pk={{ profile.pk }}" class="btn btn-info">News Feed</a>
         </div>
     {% endif %}
 

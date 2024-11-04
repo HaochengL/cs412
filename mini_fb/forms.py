@@ -3,7 +3,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, StatusMessage
+from .models import Profile, StatusMessage, Image
+from django.forms import inlineformset_factory
 
 class UserRegistrationForm(UserCreationForm):
     """
@@ -49,3 +50,18 @@ class UpdateStatusMessageForm(forms.ModelForm):
     class Meta:
         model = StatusMessage
         fields = ['message']
+
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = ['image_file']
+
+# 定义一个 inline formset 工厂，用于 StatusMessage 和 Image
+ImageFormSet = inlineformset_factory(
+    StatusMessage,
+    Image,
+    form=ImageForm,
+    fields=['image_file'],
+    extra=1,
+    can_delete=True
+)

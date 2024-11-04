@@ -14,6 +14,7 @@ from .forms import (
     UpdateProfileForm, 
     UpdateStatusMessageForm,
     UserRegistrationForm,
+    ImageFormSet
 )
 
 class ShowAllProfilesView(ListView):
@@ -78,10 +79,11 @@ class UpdateProfileView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     context_object_name = 'profile'
 
     def get_object(self, queryset=None):
-        """获取当前用户的第一个 Profile。"""
-        profile = self.request.user.profiles.first()
-        if not profile:
-            raise Http404("未找到与该用户关联的 Profile。")
+        """从查询参数获取 Profile 的 pk 并返回对应的 Profile 对象。"""
+        pk = self.request.GET.get('pk')
+        if not pk:
+            raise Http404("Profile pk is required.")
+        profile = get_object_or_404(Profile, pk=pk, user=self.request.user)
         return profile
 
     def test_func(self):
@@ -94,39 +96,84 @@ class UpdateProfileView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse('show_profile', kwargs={'pk': self.object.pk})
 
 class CreateStatusMessageView(LoginRequiredMixin, View):
-    """允许用户为其 Profile 创建新的 StatusMessage。"""
+    """允许用户为其 Profile 创建新的 StatusMessage，包括上传照片。"""
 
     def get(self, request, *args, **kwargs):
-        """显示创建 StatusMessage 的表单。"""
-        profile = request.user.profiles.first()
-        if not profile:
+        """显示创建 StatusMessage 的表单和 ImageFormSet。"""
+        pk = request.GET.get('pk')
+        if not pk:
             return redirect('create_profile')
+        profile = get_object_or_404(Profile, pk=pk, user=request.user)
         form = CreateStatusMessageForm()
-        return render(request, 'mini_fb/create_status_form.html', {'form': form, 'profile': profile})
+        formset = ImageFormSet()
+        return render(request, 'mini_fb/create_status_form.html', {
+            'form': form,
+            'formset': formset,
+            'profile': profile
+        })
     
     def post(self, request, *args, **kwargs):
-        """处理提交的 StatusMessage 表单。"""
-        profile = request.user.profiles.first()
-        if not profile:
+        """处理提交的 StatusMessage 表单和 ImageFormSet。"""
+        pk = request.GET.get('pk')
+        if not pk:
             return redirect('create_profile')
-        form = CreateStatusMessageForm(request.POST, request.FILES)
-        if form.is_valid():
+        profile = get_object_or_404(Profile, pk=pk, user=request.user)
+        form = CreateStatusMessageForm(request.POST)
+        formset = ImageFormSet(request.POST, request.FILES)
+        if form.is_valid() and formset.is_valid():
             status = form.save(commit=False)
             status.profile = profile
             status.save()
             # 处理图片上传
-            files = request.FILES.getlist('files')
-            for f in files:
-                Image.objects.create(status_message=status, image_file=f)
+            images = formset.save(commit=False)
+            for image in images:
+                image.status_message = status
+                image.save()
+            # 处理删除的图片
+            for obj in formset.deleted_objects:
+                obj.delete()
             return redirect('show_profile', pk=profile.pk)
-        return render(request, 'mini_fb/create_status_form.html', {'form': form, 'profile': profile})
+        return render(request, 'mini_fb/create_status_form.html', {
+            'form': form,
+            'formset': formset,
+            'profile': profile
+        })
 
 class UpdateStatusMessageView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """允许用户更新自己的 StatusMessage。"""
+    """允许用户更新自己的 StatusMessage，包括添加或删除照片。"""
     model = StatusMessage
     form_class = UpdateStatusMessageForm
     template_name = 'mini_fb/update_status_form.html'
     context_object_name = 'status'
+
+    def get_object(self, queryset=None):
+        """获取特定的 StatusMessage 对象。"""
+        status = get_object_or_404(StatusMessage, pk=self.kwargs['pk'], profile__user=self.request.user)
+        return status
+
+    def get_context_data(self, **kwargs):
+        """将 ImageFormSet 添加到上下文。"""
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = ImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            context['formset'] = ImageFormSet(instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        """处理表单和 formset 的有效数据。"""
+        context = self.get_context_data()
+        formset = context['formset']
+        if form.is_valid() and formset.is_valid():
+            self.object = form.save()
+            formset.save()
+            # 处理删除的图片
+            formset.save(commit=False)
+            for obj in formset.deleted_objects:
+                obj.delete()
+            return redirect('show_profile', pk=self.object.profile.pk)
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
     def test_func(self):
         """确保用户拥有该 StatusMessage。"""
@@ -164,7 +211,10 @@ class CreateFriendView(LoginRequiredMixin, UserPassesTestMixin, View):
         profile = request.user.profiles.first()
         if not profile:
             return redirect('create_profile')
-        other_profile = get_object_or_404(Profile, pk=other_pk)
+        other_profile = get_object_or_404(Profile, pk=other_pk, user__is_active=True)
+        if other_profile == profile:
+            # 防止添加自己为好友
+            return redirect('show_profile', pk=profile.pk)
         profile.add_friend(other_profile)
         return redirect('show_profile', pk=profile.pk)
 
@@ -175,13 +225,15 @@ class ShowFriendSuggestionsView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         """将好友建议添加到上下文。"""
         context = super().get_context_data(**kwargs)
-        profile = self.request.user.profiles.first()
-        if profile:
-            context['profile'] = profile
-            context['suggested_friends'] = profile.get_friend_suggestions()
-        else:
+        pk = self.request.GET.get('pk')
+        print(f"ShowFriendSuggestionsView: Received pk={pk}")  # 调试语句
+        if not pk:
             context['profile'] = None
             context['suggested_friends'] = []
+            return context
+        profile = get_object_or_404(Profile, pk=pk, user=self.request.user)
+        context['profile'] = profile
+        context['suggested_friends'] = profile.get_friend_suggestions()
         return context
 
 class ShowNewsFeedView(LoginRequiredMixin, TemplateView):
@@ -191,11 +243,13 @@ class ShowNewsFeedView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         """将新闻源添加到上下文。"""
         context = super().get_context_data(**kwargs)
-        profile = self.request.user.profiles.first()
-        if profile:
-            context['profile'] = profile
-            context['news_feed'] = profile.get_news_feed()
-        else:
+        pk = self.request.GET.get('pk')
+        print(f"ShowNewsFeedView: Received pk={pk}")  # 调试语句
+        if not pk:
             context['profile'] = None
             context['news_feed'] = []
+            return context
+        profile = get_object_or_404(Profile, pk=pk, user=self.request.user)
+        context['profile'] = profile
+        context['news_feed'] = profile.get_news_feed()
         return context

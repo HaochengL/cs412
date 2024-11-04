@@ -8,6 +8,18 @@
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+
+    <h2>Images</h2>
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <div class="formset-form">
+            {{ form.as_p }}
+            {% if form.instance.pk %}
+                <p>Current Image: <img src="{{ form.instance.image_file.url }}" alt="Image" width="100"></p>
+            {% endif %}
+        </div>
+    {% endfor %}
+
     <button type="submit" class="btn btn-primary">Post Status</button>
 </form>
 
