@@ -1,0 +1,25 @@
+<!-- voter_analytics/templates/voter_analytics/graphs.html -->
+{% extends 'voter_analytics/base.html' %}
+
+{% block content %}
+<h1>Voter Data Graphs</h1>
+
+<div class="filter-form">
+    <form method="get">
+        {{ filter_form.as_p }}
+        <button type="submit">Filter</button>
+    </form>
+</div>
+
+<div class="graphs">
+    <div class="graph">
+        {{ graph_div_birth|safe }}
+    </div>
+    <div class="graph">
+        {{ graph_div_party|safe }}
+    </div>
+    <div class="graph">
+        {{ graph_div_elections|safe }}
+    </div>
+</div>
+{% endblock %}
