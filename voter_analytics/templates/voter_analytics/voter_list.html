@@ -1,0 +1,61 @@
+<!-- voter_analytics/templates/voter_analytics/voters_list.html -->
+{% extends 'voter_analytics/base.html' %}
+
+{% block content %}
+<h1>Voter Results</h1>
+
+<div class="filter-form">
+    <form method="get">
+        {{ filter_form.as_p }}
+        <button type="submit">Filter</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Street Address</th>
+            <th>Date of Birth</th>
+            <th>Party Affiliation</th>
+            <th>Voter Score</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for voter in results %}
+        <tr>
+            <td>{{ voter.first_name }}</td>
+            <td>{{ voter.last_name }}</td>
+            <td>{{ voter.residential_address_street_number }} {{ voter.residential_address_street_name }}{% if voter.residential_address_apartment_number %}, Apt {{ voter.residential_address_apartment_number }}{% endif %}, {{ voter.residential_address_zip_code }}</td>
+            <td>{{ voter.date_of_birth }}</td>
+            <td>{{ voter.party_affiliation }}</td>
+            <td>{{ voter.voter_score }}</td>
+            <td><a href="{% url 'voter_detail' voter.pk %}">View Details</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">No voters found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    {% if is_paginated %}
+        <span>
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        <div>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.page %}&{{ request.GET.urlencode|safe }}{% endif %}">Previous</a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.page %}&{{ request.GET.urlencode|safe }}{% endif %}">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
