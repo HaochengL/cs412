@@ -1,58 +1,189 @@
-/* voter_analytics/static/voter_analytics/stylesheet.css */
+/* voterstyle.css */
 
+/* 全局样式 */
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
 }
 
+/* 头部样式 */
 header {
-    background-color: #f8f9fa;
-    padding: 10px;
+    background-color: #4CAF50; /* 绿色背景 */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 header h1 {
     margin: 0;
+    font-size: 2.5em;
 }
 
+/* 导航栏样式 */
 nav ul {
     list-style-type: none;
+    margin: 0;
     padding: 0;
+    overflow: hidden;
+    background-color: #333;
 }
 
-nav ul li {
-    display: inline;
-    margin-right: 15px;
+nav li {
+    float: left;
 }
 
+nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: #111;
+}
+
+/* 内容区域样式 */
 .content {
-    margin-top: 20px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 40px;
 }
 
+/* 表单样式 */
 .filter-form {
-    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
 }
 
+.filter-form form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.filter-form form > div {
+    flex: 1 1 45%;
+    margin-bottom: 15px;
+}
+
+.filter-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.filter-form select,
+.filter-form input[type="text"],
+.filter-form input[type="number"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filter-form button {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* 绿色按钮 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.filter-form button:hover {
+    background-color: #45a049;
+}
+
+/* 表格样式 */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-table, th, td {
-    border: 1px solid #dee2e6;
-}
-
-th, td {
-    padding: 8px;
+table th,
+table td {
+    padding: 12px 15px;
     text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
+table th {
+    background-color: #4CAF50;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 图表容器样式 */
+.graph {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.graph h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #4CAF50;
+}
+
+/* 分页样式 */
 .pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
+    margin-top: 20px;
 }
 
-.graphs .graph {
-    margin-bottom: 40px;
+.pagination a {
+    color: #4CAF50;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #4CAF50;
+    margin: 0 4px;
+    border-radius: 4px;
+}
+
+.pagination a:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* 按钮样式 */
+button {
+    cursor: pointer;
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 768px) {
+    .filter-form form > div {
+        flex: 1 1 100%;
+    }
+
+    nav li {
+        float: none;
+    }
 }

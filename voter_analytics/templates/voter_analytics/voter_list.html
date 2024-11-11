@@ -18,6 +18,7 @@
             <th>Last Name</th>
             <th>Street Address</th>
             <th>Date of Birth</th>
+            <th>Date of Registration</th> <!-- Added Header -->
             <th>Party Affiliation</th>
             <th>Voter Score</th>
             <th>Details</th>
@@ -28,15 +29,21 @@
         <tr>
             <td>{{ voter.first_name }}</td>
             <td>{{ voter.last_name }}</td>
-            <td>{{ voter.residential_address_street_number }} {{ voter.residential_address_street_name }}{% if voter.residential_address_apartment_number %}, Apt {{ voter.residential_address_apartment_number }}{% endif %}, {{ voter.residential_address_zip_code }}</td>
+            <td>
+                {{ voter.residential_address_street_number }} {{ voter.residential_address_street_name }}
+                {% if voter.residential_address_apartment_number %}
+                    , Apt {{ voter.residential_address_apartment_number }}
+                {% endif %}, {{ voter.residential_address_zip_code }}
+            </td>
             <td>{{ voter.date_of_birth }}</td>
+            <td>{{ voter.date_of_registration }}</td> <!-- Added Data Field -->
             <td>{{ voter.party_affiliation }}</td>
             <td>{{ voter.voter_score }}</td>
             <td><a href="{% url 'voter_detail' voter.pk %}">View Details</a></td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="7">No voters found.</td>
+            <td colspan="8">No voters found.</td> <!-- Updated colspan to 8 -->
         </tr>
         {% endfor %}
     </tbody>

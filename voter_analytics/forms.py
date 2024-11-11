@@ -8,8 +8,14 @@ class FilterForm(forms.Form):
         ('All', 'All'),
         ('Democrat', 'Democrat'),
         ('Republican', 'Republican'),
+        ('Unaffiliated', 'Unaffiliated'),
+        ('Libertarian', 'Libertarian'),
+        ('Green', 'Green'),
         ('Independent', 'Independent'),
-        # 根据实际数据添加更多选项
+        ('Socialist', 'Socialist'),
+        ('Progressive', 'Progressive'),
+        ('Other', 'Other'),
+        # Add more options as needed based on your PARTY_MAP
     ]
     
     VOTER_SCORE_CHOICES = [

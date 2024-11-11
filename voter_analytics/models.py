@@ -1,11 +1,41 @@
-from django.db import models
-
-# Create your models here.
 # voter_analytics/models.py
 
 import csv
 import datetime
+import os
 from django.db import models
+from django.conf import settings
+
+# Mapping from party codes to full party names
+PARTY_MAP = {
+    'D': 'Democrat',
+    'R': 'Republican',
+    'U': 'Unaffiliated',
+    'L': 'Libertarian',
+    'G': 'Green',
+    'J': 'Junk',
+    'A': 'Alliance',
+    'CC': 'Citizens Choice',
+    'X': 'Independent',
+    'Q': 'Quadripart',
+    'S': 'Socialist',
+    'FF': 'Freedom Fighters',
+    'HH': 'Heritage',
+    'T': 'Tea Party',
+    'AA': 'American Alliance',
+    'GG': 'Grassroots',
+    'Z': 'Zero Party',
+    'O': 'Other',
+    'P': 'Progressive',
+    'E': 'Environmentalist',
+    'V': 'Veteran',
+    'H': 'Humanitarian',
+    'Y': 'Youth',
+    'W': 'Workers',
+    'EE': 'Eco-Efficient',
+    'K': 'Knowledgeable',
+    # Add any other necessary mappings
+}
 
 class Voter(models.Model):
     """
@@ -44,34 +74,42 @@ def load_data():
     """
     Load voter data from a CSV file into the Voter model.
     """
-    # 删除现有记录以防止重复
+    # Delete existing records to prevent duplicates
     Voter.objects.all().delete()
     
-    filename = 'voter_analytics/data/newton_voters.csv'  # 确保CSV文件路径正确
+    # Build the absolute path to the CSV file
+    filename = os.path.join(settings.BASE_DIR, 'voter_analytics', 'data', 'newton_voters.csv')
+    
     voters = []
     
     with open(filename, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             try:
-                # 解析日期
+                # Parse dates
                 date_of_birth = datetime.datetime.strptime(row['Date of Birth'], '%Y-%m-%d').date()
                 date_of_registration = datetime.datetime.strptime(row['Date of Registration'], '%Y-%m-%d').date()
                 
-                # 解析布尔值字段
+                # Parse boolean fields
                 def parse_boolean(value):
                     return value.strip().upper() == 'TRUE'
                 
+                # Clean and standardize party name
+                raw_party_code = row['Party Affiliation']
+                party_code = raw_party_code.strip().upper()
+                party_affiliation = PARTY_MAP.get(party_code, 'Other')  # Default to 'Other' if mapping not found
+
+                # Create the Voter instance with the mapped full party name
                 voter = Voter(
-                    last_name=row['Last Name'],
-                    first_name=row['First Name'],
-                    residential_address_street_number=row['Residential Address - Street Number'],
-                    residential_address_street_name=row['Residential Address - Street Name'],
-                    residential_address_apartment_number=row['Residential Address - Apartment Number'] or None,
-                    residential_address_zip_code=row['Residential Address - Zip Code'],
+                    last_name=row['Last Name'].strip(),
+                    first_name=row['First Name'].strip(),
+                    residential_address_street_number=row['Residential Address - Street Number'].strip(),
+                    residential_address_street_name=row['Residential Address - Street Name'].strip(),
+                    residential_address_apartment_number=row['Residential Address - Apartment Number'].strip() or None,
+                    residential_address_zip_code=row['Residential Address - Zip Code'].strip(),
                     date_of_birth=date_of_birth,
                     date_of_registration=date_of_registration,
-                    party_affiliation=row['Party Affiliation'].strip(),
+                    party_affiliation=party_affiliation,  # Use the mapped full name here
                     precinct_number=row['Precinct Number'].strip(),
                     v20state=parse_boolean(row['v20state']),
                     v21town=parse_boolean(row['v21town']),
@@ -84,6 +122,6 @@ def load_data():
             except Exception as e:
                 print(f"Skipped row due to error: {e}")
     
-    # 批量创建
+    # Bulk create the Voter instances
     Voter.objects.bulk_create(voters)
     print(f'Done. Created {Voter.objects.count()} Voter records.')
