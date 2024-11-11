@@ -37,15 +37,13 @@ class VotersListView(ListView):
 
         if min_dob:
             try:
-                min_dob_year = int(min_dob)
-                qs = qs.filter(date_of_birth__year__gte=min_dob_year)
+                qs = qs.filter(date_of_birth__year__gte=int(min_dob))
             except ValueError:
                 pass  # Ignore format errors
 
         if max_dob:
             try:
-                max_dob_year = int(max_dob)
-                qs = qs.filter(date_of_birth__year__lte=max_dob_year)
+                qs = qs.filter(date_of_birth__year__lte=int(max_dob))
             except ValueError:
                 pass  # Ignore format errors
 
@@ -148,36 +146,46 @@ class GraphsView(TemplateView):
             party = party_affiliation.strip()
             party_counts[party] += 1
 
-        # Include all parties without grouping into 'Other'
-        # Sorting labels and values
-        sorted_items = sorted(party_counts.items(), key=lambda x: x[1], reverse=True)
-        labels, values = zip(*sorted_items)
+        total_voters = sum(party_counts.values())
+        threshold = 0.02  # Parties with less than 2% will be grouped into 'Other'
+        other_count = 0
+        filtered_party_counts = {}
 
-        # Adjusting pie chart for better readability with many slices
+        for party, count in party_counts.items():
+            percentage = count / total_voters
+            if percentage < threshold:
+                other_count += count
+            else:
+                filtered_party_counts[party] = count
+
+        if other_count > 0:
+            filtered_party_counts['其他'] = other_count  # 合并为“其他”
+
+        # Sorting labels and values
+        sorted_items = sorted(filtered_party_counts.items(), key=lambda x: x[1], reverse=True)
+        if sorted_items:
+            labels, values = zip(*sorted_items)
+        else:
+            labels, values = [], []
+
         pie_trace = go.Pie(
             labels=labels,
             values=values,
             hoverinfo='label+percent+value',
             textinfo='percent+label',
-            textfont=dict(size=12),
-            marker=dict(line=dict(color='#000000', width=1)),
-            showlegend=True,
-            # Optional: Pull out slices less than 5% to emphasize them
-            # You can adjust or remove this if not desired
-            pull=[0.1 if (v / sum(values)) < 0.05 else 0 for v in values],
+            insidetextorientation='radial'
         )
         pie_layout = go.Layout(
             title='Distribution of Voters by Party Affiliation',
-            width=900,
-            height=700,
+            width=800,
+            height=600,
             legend=dict(
                 x=1,
                 y=0.5,
                 xanchor='left',
-                yanchor='middle',
-                font=dict(size=10),
+                yanchor='middle'
             ),
-            margin=dict(l=50, r=200, t=50, b=50),
+            margin=dict(l=50, r=150, t=50, b=50),
         )
         pie_fig = go.Figure(data=[pie_trace], layout=pie_layout)
         graph_div_party = plotly.offline.plot(pie_fig, auto_open=False, output_type='div')
