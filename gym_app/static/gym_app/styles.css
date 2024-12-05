@@ -1,0 +1,657 @@
+/* gym_app/static/gym_app/styles.css */
+
+/* 通用样式 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    background-color: #f5f5f5;
+    line-height: 1.6;
+}
+
+/* 头部和导航栏 */
+header {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 1em 0;
+    margin-bottom: 2em;
+}
+
+header h1 {
+    text-align: center;
+    font-weight: normal;
+}
+
+nav {
+    background-color: #34495e;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+nav li {
+    margin: 0.5em;
+}
+
+nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #2c3e50;
+}
+
+/* 主体内容 */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1em;
+}
+
+/* 页脚 */
+footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    text-align: center;
+    padding: 1em 0;
+    margin-top: 2em;
+}
+
+/* 按钮样式 */
+.button,
+button,
+input[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+    padding: 0.7em 1.5em;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0.5em 0;
+    transition: background-color 0.3s;
+    font-size: 1em;
+}
+
+.button:hover,
+button:hover,
+input[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+/* 删除按钮特殊样式 */
+.delete-button {
+    background-color: #e74c3c;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+/* 表单样式 */
+form {
+    max-width: 600px;
+    margin: 2em auto;
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+form h2 {
+    margin-bottom: 1em;
+    color: #2c3e50;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="number"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 0.7em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form input[type="file"] {
+    margin-bottom: 1em;
+}
+
+form button {
+    width: 100%;
+}
+
+/* 列表样式 */
+ul {
+    list-style: none;
+    margin: 1em 0;
+    padding: 0;
+}
+
+li {
+    background-color: #fff;
+    margin-bottom: 1em;
+    padding: 1em;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+li img {
+    border-radius: 50%;
+    margin-right: 1em;
+}
+
+li img.profile-photo-small {
+    width: 80px;
+    height: 80px;
+}
+
+li a {
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: bold;
+    flex-grow: 1;
+}
+
+li a:hover {
+    text-decoration: underline;
+}
+
+li form {
+    margin-left: 1em;
+}
+
+/* 卡片布局 */
+.card {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 1.5em;
+    margin-bottom: 2em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+    margin-bottom: 1em;
+    color: #2c3e50;
+}
+
+.card h3 {
+    margin-bottom: 1em;
+    color: #2c3e50;
+}
+
+.card p {
+    margin-bottom: 0.5em;
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2em;
+}
+
+table th,
+table td {
+    padding: 1em;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+table th {
+    background-color: #ecf0f1;
+}
+
+table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* 消息通知 */
+.messages {
+    max-width: 600px;
+    margin: 1em auto;
+    padding: 0;
+}
+
+.messages li {
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: 5px;
+}
+
+.messages li.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.messages li.error {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+.messages li.warning {
+    background-color: #fcf8e3;
+    color: #8a6d3b;
+}
+
+/* 按钮组 */
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    align-items: center;
+}
+
+.button-group a,
+.button-group button {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+/* 表单内联样式 */
+.inline-form {
+    display: inline;
+    margin: 0;
+}
+
+.inline-form button {
+    margin-left: 0.5em;
+    padding: 0.5em 1em;
+}
+
+/* 图片样式 */
+img.responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 隐藏元素 */
+.hidden {
+    display: none;
+}
+
+/* 可折叠内容 */
+.collapsible {
+    background-color: #fff;
+    cursor: pointer;
+    padding: 1em;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1.2em;
+    border-radius: 5px;
+    margin-bottom: 0.5em;
+}
+
+.collapsible.active,
+.collapsible:hover {
+    background-color: #ecf0f1;
+}
+
+.content {
+    padding: 0 1em;
+    display: none;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 0 0 5px 5px;
+}
+
+/* 表单错误提示 */
+form .errorlist {
+    color: #a94442;
+    margin-bottom: 1em;
+}
+
+form .errorlist li {
+    list-style: none;
+}
+
+/* 提示文本 */
+.helptext {
+    font-size: 0.9em;
+    color: #7f8c8d;
+}
+
+/* 悬停卡片效果 */
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* 高亮文本 */
+.highlight {
+    background-color: #ffffcc;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #ecf0f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bdc3c7;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #95a5a6;
+}
+
+/* 主页容器 */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+/* 欢迎部分 */
+.welcome-section {
+    background-color: #1abc9c;
+    color: #fff;
+    padding: 1.5em;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.welcome-section h2 {
+    margin-bottom: 0.5em;
+}
+
+.welcome-section p {
+    margin-bottom: 0.5em;
+    font-size: 1.1em;
+}
+
+/* 建议部分和锻炼会话部分 */
+.suggestions-section,
+.workout-sessions-section {
+    background-color: #fff;
+    padding: 1.5em;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.suggestions-section h2,
+.workout-sessions-section h2 {
+    margin-bottom: 1em;
+    color: #2c3e50;
+}
+
+.suggestions-section ul,
+.workout-sessions-section ul {
+    list-style: disc;
+    padding-left: 1.5em;
+}
+
+.suggestions-section li,
+.workout-sessions-section li {
+    margin-bottom: 0.5em;
+}
+
+.workout-sessions-section a.button {
+    margin-top: 1em;
+}
+
+/* 可视化部分 */
+.visualization-section {
+    margin-top: 3em;
+}
+
+.visualization-section h2 {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.filter-form {
+    margin-bottom: 2em;
+}
+
+.chart-container {
+    margin-bottom: 2em;
+}
+
+.chart-container iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+}
+
+/* 个人资料页面样式 */
+.profile-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 2em;
+    margin-top: 2em;
+}
+
+.profile-photo {
+    flex: 1 1 400px;
+    max-width: 400px;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.profile-info {
+    flex: 2 1 300px;
+}
+
+.profile-info p {
+    margin-bottom: 0.5em;
+    font-size: 1.1em;
+}
+
+.profile-info p strong {
+    color: #2c3e50;
+}
+
+/* 健身教学视频样式 */
+.fitness-videos {
+    margin-top: 2em;
+}
+
+.fitness-videos h3 {
+    margin-bottom: 1em;
+    color: #2c3e50;
+}
+
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5em;
+}
+
+.video-item {
+    flex: 1 1 calc(33.333% - 1em);
+    box-sizing: border-box;
+}
+
+.video-item h4 {
+    margin-bottom: 0.5em;
+    font-size: 1.1em;
+    color: #2c3e50;
+}
+
+.video-item iframe {
+    width: 100%;
+    height: 200px;
+    border: none;
+    border-radius: 5px;
+}
+
+/* 消息线程样式 */
+.message-thread {
+    margin-bottom: 2em;
+}
+
+.message {
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: 5px;
+}
+
+.message.sent {
+    background-color: #e8f8f5;
+    text-align: right;
+}
+
+.message.received {
+    background-color: #f8f9f9;
+}
+
+.message p {
+    margin-bottom: 0.5em;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav li {
+        margin: 0.5em 0;
+    }
+
+    li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    li img {
+        margin-bottom: 1em;
+    }
+
+    form {
+        padding: 1.5em;
+    }
+
+    /* 个人资料页面响应式 */
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-photo {
+        max-width: 100%;
+    }
+
+    .profile-info {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* 视频区域响应式 */
+    .video-item {
+        flex: 1 1 100%;
+    }
+
+    .video-item iframe {
+        height: 200px;
+    }
+}
+
+.message-thread {
+    .message-thread {
+        max-height: 500px;
+        overflow-y: auto;
+        padding: 1em;
+        border: 1px solid #ccc;
+        margin-bottom: 1em;
+        background-color: #fff;
+    }
+    
+    .message {
+        margin-bottom: 1em;
+        max-width: 70%;
+        padding: 0.5em;
+        border-radius: 10px;
+        position: relative;
+    }
+    
+    .message.sent {
+        background-color: #dcf8c6;
+        margin-left: auto;
+        text-align: left;
+    }
+    
+    .message.received {
+        background-color: #f1f0f0;
+        margin-right: auto;
+        text-align: left;
+    }
+    
+    .message .timestamp {
+        font-size: 0.8em;
+        color: #999;
+        text-align: right;
+        margin-top: 0.5em;
+    }
+    
+    .chat-form {
+        display: flex;
+        align-items: center;
+        margin-top: 1em;
+    }
+    
+    .chat-form textarea {
+        flex-grow: 1;
+        padding: 0.5em;
+        resize: none;
+        height: 50px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    .chat-form .send-button {
+        margin-left: 0.5em;
+        padding: 0.5em 1em;
+        font-size: 1em;
+        border: none;
+        border-radius: 5px;
+        background-color: #3498db;
+        color: #fff;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+    
+    .chat-form .send-button:hover {
+        background-color: #2980b9;
+    }}

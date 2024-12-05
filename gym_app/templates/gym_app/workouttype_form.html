@@ -1,0 +1,12 @@
+<!-- gym_app/templates/gym_app/workouttype_form.html -->
+
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<h2>Add Workout Type</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Workout Type</button>
+</form>
+{% endblock %}

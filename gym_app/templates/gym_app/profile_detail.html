@@ -1,0 +1,84 @@
+<!-- gym_app/templates/gym_app/profile_detail.html -->
+{% extends 'gym_app/base_generic.html' %}
+{% load static %}
+
+{% block content %}
+<h2>{{ profile.user.username }}'s Profile</h2>
+
+{% if is_self %}
+    <p>This is your profile.</p>
+    <a href="{% url 'profile_update' pk=profile.pk %}" class="button">Update Profile</a>
+
+    <div class="profile-container card">
+        {% if profile.photo %}
+            <div class="profile-photo">
+                <img src="{{ profile.photo.url }}" alt="{{ profile.user.username }}'s Photo" class="responsive">
+            </div>
+        {% endif %}
+        <div class="profile-info">
+            <p><strong>Age:</strong> {{ profile.age }}</p>
+            <p><strong>Gender:</strong> {{ profile.get_gender_display }}</p>
+            <p><strong>Weight:</strong> {{ profile.weight_kg }} kg</p>
+            <p><strong>Height:</strong> {{ profile.height_m }} m</p>
+            <p><strong>Experience Level:</strong> {{ profile.get_experience_level_display }}</p>
+            <p><strong>BMI:</strong> {{ profile.bmi }}</p>
+            {% if fitness_metric %}
+                <p><strong>Fat Percentage:</strong> {{ fitness_metric.fat_percentage }}%</p>
+                <p><strong>Water Intake:</strong> {{ fitness_metric.water_intake_liters }} liters</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% elif is_friend %}
+    <div class="profile-container card">
+        {% if profile.photo %}
+            <div class="profile-photo">
+                <img src="{{ profile.photo.url }}" alt="{{ profile.user.username }}'s Photo" class="responsive">
+            </div>
+        {% endif %}
+        <div class="profile-info">
+            <p><strong>Age:</strong> {{ profile.age }}</p>
+            <p><strong>Gender:</strong> {{ profile.get_gender_display }}</p>
+            <p><strong>Weight:</strong> {{ profile.weight_kg }} kg</p>
+            <p><strong>Height:</strong> {{ profile.height_m }} m</p>
+            <p><strong>Experience Level:</strong> {{ profile.get_experience_level_display }}</p>
+            <p><strong>BMI:</strong> {{ profile.bmi }}</p>
+
+            <!-- Fitness Metric -->
+            <h3>Fitness Metric</h3>
+            {% if fitness_metric %}
+                <p><strong>Fat Percentage:</strong> {{ fitness_metric.fat_percentage }}%</p>
+                <p><strong>Water Intake:</strong> {{ fitness_metric.water_intake_liters }} liters</p>
+            {% else %}
+                <p>No fitness metrics recorded.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Workout Sessions -->
+    <h3>Workout Sessions</h3>
+    <ul>
+        {% for session in workout_sessions %}
+            <li>
+                {{ session.session_date }} -
+                {{ session.workout_type.name }} -
+                Duration: {{ session.session_duration_hours }} hours -
+                Calories Burned: {{ session.calories_burned }}
+            </li>
+        {% empty %}
+            <li>No workout sessions recorded.</li>
+        {% endfor %}
+    </ul>
+
+    <form method="post" action="{% url 'remove_friend' pk=profile.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="button delete-button">Remove Friend</button>
+    </form>
+{% elif limited_view %}
+    <p>To see more details, add this user as a friend.</p>
+    <form method="post" action="{% url 'add_friend' pk=profile.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="button">Add Friend</button>
+    </form>
+{% endif %}
+{% endblock %}

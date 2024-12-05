@@ -1,0 +1,12 @@
+<!-- gym_app/templates/gym_app/profile_create.html -->
+
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<h2>Create Your Profile</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Profile</button>
+</form>
+{% endblock %}

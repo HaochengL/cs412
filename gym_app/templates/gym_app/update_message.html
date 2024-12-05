@@ -1,0 +1,16 @@
+<!-- gym_app/templates/gym_app/update_message.html -->
+
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<h2>Edit Message</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {{ form.content.errors }}
+    {{ form.content }}
+    <button type="submit" class="button">Save Changes</button>
+    <a href="{% url 'message_thread' user_id=message_obj.recipient.id %}" class="button">Cancel</a>
+</form>
+{% endblock %}

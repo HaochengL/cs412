@@ -1,0 +1,29 @@
+<!-- gym_app/templates/gym_app/chat_list.html -->
+
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<h2>Chat</h2>
+
+<h3>Your Conversations</h3>
+<ul>
+    {% for user in conversations %}
+        <li>
+            <a href="{% url 'message_thread' user_id=user.id %}">{{ user.username }}</a>
+        </li>
+    {% empty %}
+        <li>You have no conversations yet.</li>
+    {% endfor %}
+</ul>
+
+<h3>Your Friends</h3>
+<ul>
+    {% for friend in friends %}
+        <li>
+            <a href="{% url 'message_thread' user_id=friend.user.id %}">{{ friend.user.username }}</a>
+        </li>
+    {% empty %}
+        <li>You have no friends yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

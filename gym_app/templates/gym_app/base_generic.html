@@ -1,0 +1,54 @@
+<!-- gym_app/templates/gym_app/base_generic.html -->
+{% load static %}
+{% load gym_app_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gym Member Fitness Tracking</title>
+    <link rel="stylesheet" href="{% static 'gym_app/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Gym Member Fitness Tracking</h1>
+        <nav aria-label="Main Navigation">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    {% with profile=user|get_profile %}
+                        {% if profile %}
+                            <li><a href="{% url 'profile_detail' pk=profile.pk %}">My Profile</a></li>
+                            <li><a href="{% url 'friend_list' %}">Friends</a></li>
+                            <li><a href="{% url 'chat' %}">Chat</a></li>
+                            <li><a href="{% url 'workoutsession_list' %}">Workout Sessions</a></li>
+                        {% else %}
+                            <li><a href="{% url 'profile_create' %}">Create Profile</a></li>
+                        {% endif %}
+                    {% endwith %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Gym Member Fitness Tracking</p>
+    </footer>
+</body>
+</html>

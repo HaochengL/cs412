@@ -1,0 +1,57 @@
+<!-- gym_app/templates/gym_app/dashboard.html -->
+
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<h2>Dashboard</h2>
+
+<h3>Profile Information</h3>
+<p>Username: {{ user.username }}</p>
+<p>Age: {{ user.profile.age }}</p>
+<p>Gender: {{ user.profile.gender }}</p>
+<p>Weight: {{ user.profile.weight_kg }} kg</p>
+<p>Height: {{ user.profile.height_m }} m</p>
+<p>Experience Level: {{ user.profile.get_experience_level_display }}</p>
+<p>BMI: {{ user.profile.bmi }}</p>
+
+<h3>Fitness Metrics</h3>
+<ul>
+    {% for metric in fitness_metrics %}
+        <li>
+            Date: {{ metric.date_recorded }},
+            Fat Percentage: {{ metric.fat_percentage }}%,
+            Water Intake: {{ metric.water_intake_liters }} liters
+        </li>
+    {% empty %}
+        <li>No fitness metrics recorded.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'fitnessmetric_add' %}">Add Fitness Metric</a>
+
+<h3>Suggestions</h3>
+<ul>
+    {% for suggestion in suggestions %}
+        <li>
+            <strong>{{ suggestion.get_suggestion_type_display }}:</strong> {{ suggestion.suggestion_text }}
+        </li>
+    {% empty %}
+        <li>No suggestions available.</li>
+    {% endfor %}
+</ul>
+<!-- 用户无需手动添加建议，因此不提供添加建议的链接 -->
+
+<h3>Workout Sessions</h3>
+<ul>
+    {% for session in workout_sessions %}
+        <li>
+            {{ session.session_date }} -
+            {{ session.workout_type.name }} -
+            Duration: {{ session.session_duration_hours }} hours -
+            Calories Burned: {{ session.calories_burned }}
+        </li>
+    {% empty %}
+        <li>No workout sessions recorded.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'workoutsession_add' %}">Add Workout Session</a>
+{% endblock %}

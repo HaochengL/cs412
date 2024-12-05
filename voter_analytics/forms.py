@@ -68,3 +68,55 @@ class FilterForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         label='Voted in Elections'
     )
+
+class DataFilterForm(forms.Form):
+    GENDER_CHOICES = [
+        ('All', 'All'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Other', 'Other'),
+    ]
+
+    EXPERIENCE_LEVEL_CHOICES = [
+        ('All', 'All'),
+        ('1', 'Beginner'),
+        ('2', 'Intermediate'),
+        ('3', 'Advanced'),
+    ]
+
+    WORKOUT_FREQUENCY_CHOICES = [
+        ('All', 'All'),
+        ('Low', '2 times/week or less'),
+        ('High', '3 times/week or more'),
+    ]
+
+    gender = forms.ChoiceField(
+        choices=GENDER_CHOICES,
+        required=False,
+        label='Gender',
+        initial='All'
+    )
+
+    min_age = forms.IntegerField(
+        required=False,
+        label='Minimum Age'
+    )
+
+    max_age = forms.IntegerField(
+        required=False,
+        label='Maximum Age'
+    )
+
+    experience_level = forms.ChoiceField(
+        choices=EXPERIENCE_LEVEL_CHOICES,
+        required=False,
+        label='Experience Level',
+        initial='All'
+    )
+
+    workout_frequency = forms.ChoiceField(
+        choices=WORKOUT_FREQUENCY_CHOICES,
+        required=False,
+        label='Workout Frequency',
+        initial='All'
+    )

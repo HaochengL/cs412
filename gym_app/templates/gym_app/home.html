@@ -1,0 +1,124 @@
+<!-- gym_app/templates/gym_app/home.html -->
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<div class="home-container">
+    <!-- Welcome Section -->
+    <div class="welcome-section card">
+        <h2>Welcome, {{ user.username }}!</h2>
+        <p>Your BMI: {{ profile.bmi }}</p>
+        <p>Your Experience Level: {{ profile.get_experience_level_display }}</p>
+    </div>
+
+    <!-- Fitness Suggestions -->
+    <div class="suggestions-section card">
+        <h2>Fitness Suggestions</h2>
+        <ul>
+            {% for suggestion in suggestions %}
+                <li>
+                    <strong>{{ suggestion.get_suggestion_type_display }}:</strong> {{ suggestion.suggestion_text }}
+                </li>
+            {% empty %}
+                <li>No suggestions available.</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Fitness Instructional Videos -->
+        <div class="fitness-videos">
+            <h3>Fitness Instructional Videos</h3>
+            <div class="video-grid">
+                <!-- Video 1: Strength Training -->
+                <div class="video-item">
+                    <h4>Strength Training</h4>
+                    <iframe src="https://www.youtube.com/embed/fD4OyUDfL3U" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <!-- Video 2: Yoga -->
+                <div class="video-item">
+                    <h4>Yoga</h4>
+                    <iframe src="https://www.youtube.com/embed/T41mYCmtWls" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <!-- Video 3: HIIT -->
+                <div class="video-item">
+                    <h4>HIIT</h4>
+                    <iframe src="https://www.youtube.com/embed/-hSma-BRzoo" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Workout Sessions -->
+    <div class="workout-sessions-section card">
+        <h2>Recent Workout Sessions</h2>
+        <ul>
+            {% for session in recent_workout_sessions %}
+                <li>
+                    {{ session.session_date }} - {{ session.workout_type.name }} - Duration: {{ session.session_duration_hours }} hours - Calories Burned: {{ session.calories_burned }}
+                </li>
+            {% empty %}
+                <li>No recent workout sessions recorded.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'workoutsession_add' %}" class="button">Add Workout Session</a>
+    </div>
+</div>
+
+<!-- Gym Statistics Data Visualization -->
+<div class="visualization-section">
+    <h2>Gym Statistics Data Visualization</h2>
+    <button id="toggle-visualization" class="button">Show Visualization</button>
+
+    <div id="visualization-content" style="display: none;">
+        <!-- Filter Form -->
+        <div class="filter-form card">
+            <form method="get">
+                {{ filter_form.as_p }}
+                <button type="submit" class="button">Filter</button>
+            </form>
+        </div>
+
+        <!-- Display Charts -->
+        {% if graph1 %}
+            <div class="chart-container">
+                {{ graph1|safe }}
+            </div>
+        {% endif %}
+
+        {% if graph2 %}
+            <div class="chart-container">
+                {{ graph2|safe }}
+            </div>
+        {% endif %}
+
+        {% if graph3 %}
+            <div class="chart-container">
+                {{ graph3|safe }}
+            </div>
+        {% endif %}
+
+        {% if graph4 %}
+            <div class="chart-container">
+                {{ graph4|safe }}
+            </div>
+        {% endif %}
+
+        {% if graph5 %}
+            <div class="chart-container">
+                {{ graph5|safe }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    document.getElementById('toggle-visualization').addEventListener('click', function() {
+        var content = document.getElementById('visualization-content');
+        if (content.style.display === 'none' || content.style.display === '') {
+            content.style.display = 'block';
+            this.textContent = 'Hide Visualization';
+        } else {
+            content.style.display = 'none';
+            this.textContent = 'Show Visualization';
+        }
+    });
+</script>
+{% endblock %}

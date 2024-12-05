@@ -1,0 +1,17 @@
+<!-- gym_app/templates/gym_app/suggestion_list.html -->
+
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<h2>Fitness Suggestions</h2> <!-- Renamed here -->
+<ul>
+    {% for suggestion in suggestions %}
+        <li>
+            <strong>{{ suggestion.get_suggestion_type_display }}:</strong> {{ suggestion.suggestion_text }}
+        </li>
+    {% empty %}
+        <li>No suggestions available.</li>
+    {% endfor %}
+</ul>
+<!-- Removed the link to add suggestions since suggestions are auto-generated -->
+{% endblock %}

@@ -1,0 +1,28 @@
+<!-- gym_app/templates/gym_app/friend_list.html -->
+{% extends 'gym_app/base_generic.html' %}
+{% load static %}
+
+{% block content %}
+<h2>My Friends</h2>
+
+{% if friends %}
+    <ul>
+        {% for friend in friends %}
+            <li>
+                <a href="{% url 'profile_detail' pk=friend.pk %}">
+                    {% if friend.photo %}
+                        <img src="{{ friend.photo.url }}" alt="{{ friend.user.username }}" width="50">
+                    {% else %}
+                        <img src="{% static 'gym_app/default_avatar.png' %}" alt="Default Avatar" width="50">
+                    {% endif %}
+                    {{ friend.user.username }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You don't have any friends yet.</p>
+{% endif %}
+
+<a href="{% url 'add_friend_list' %}">Add Friend</a>
+{% endblock %}

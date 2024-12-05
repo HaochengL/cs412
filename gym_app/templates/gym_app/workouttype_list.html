@@ -1,0 +1,15 @@
+<!-- gym_app/templates/gym_app/workouttype_list.html -->
+
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<h2>Workout Types</h2>
+<ul>
+    {% for workout_type in workout_types %}
+        <li>{{ workout_type.name }} - {{ workout_type.description }}</li>
+    {% empty %}
+        <li>No workout types available.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'workouttype_add' %}">Add New Workout Type</a>
+{% endblock %}

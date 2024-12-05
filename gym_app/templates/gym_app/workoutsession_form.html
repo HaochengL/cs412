@@ -1,0 +1,16 @@
+<!-- gym_app/templates/gym_app/workoutsession_form.html -->
+
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<h2>{% if object %}Edit{% else %}Add{% endif %} Workout Session</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if object %}Update{% else %}Add{% endif %} Workout Session</button>
+</form>
+<p>
+    Can't find the workout type you're looking for?
+    <a href="{% url 'workouttype_add' %}">Add a new workout type.</a>
+</p>
+{% endblock %}

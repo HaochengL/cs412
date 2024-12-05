@@ -1,0 +1,19 @@
+<!-- gym_app/templates/gym_app/delete_message.html -->
+
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<h2>Delete Message</h2>
+<p>Are you sure you want to delete this message?</p>
+
+<div class="message {% if message_obj.sender == request.user %}sent{% else %}received{% endif %}">
+    <p>{{ message_obj.content }}</p>
+    <p class="timestamp">{{ message_obj.timestamp|date:"M d, Y H:i" }}</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="button delete-button">Confirm Delete</button>
+    <a href="{% url 'message_thread' user_id=message_obj.recipient.id %}" class="button">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!-- gym_app/templates/gym_app/user_list.html -->
+{% extends 'gym_app/base_generic.html' %}
+{% load static %}  <!-- Add this line -->
+
+{% block content %}
+<h2>All Users</h2>
+<ul>
+    {% for profile in profiles %}
+        <li>
+            <a href="{% url 'profile_detail' pk=profile.pk %}">
+                {% if profile.photo %}
+                    <img src="{{ profile.photo.url }}" alt="{{ profile.user.username }}" width="50">
+                {% else %}
+                    <img src="{% static 'gym_app/default_avatar.png' %}" alt="Default Avatar" width="50">
+                {% endif %}
+                {{ profile.user.username }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

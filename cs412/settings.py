@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'blog',
     'mini_fb',
     'voter_analytics',
+    'gym_app',
 ]
 
 MIDDLEWARE = [
@@ -157,8 +158,10 @@ STORAGES = {
 # Authentication Settings
 LOGIN_REDIRECT_URL = 'show_profile'         # Redirect to profile after login
 LOGOUT_REDIRECT_URL = 'show_all_profiles'  # Redirect to home after logout
-LOGIN_URL = 'login'                          # URL to redirect to for @login_required
-
+LOGIN_URL = '/gym_app/login/'
+LOGIN_REDIRECT_URL = '/gym_app/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Messages Framework Settings
 from django.contrib.messages import constants as message_constants
 

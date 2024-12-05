@@ -1,0 +1,13 @@
+{% extends 'gym_app/base_generic.html' %}
+
+{% block content %}
+<h2>{{ workout_session.workout_type.name }} on {{ workout_session.session_date }}</h2>
+<p>Duration: {{ workout_session.session_duration_hours }} hours</p>
+<p>Calories Burned: {{ workout_session.calories_burned }}</p>
+<p>Max BPM: {{ workout_session.max_bpm }}</p>
+<p>Average BPM: {{ workout_session.avg_bpm }}</p>
+<p>Resting BPM: {{ workout_session.resting_bpm }}</p>
+
+<a href="{% url 'workoutsession_update' pk=workout_session.pk %}">Edit</a> |
+<a href="{% url 'workoutsession_delete' pk=workout_session.pk %}">Delete</a>
+{% endblock %}
