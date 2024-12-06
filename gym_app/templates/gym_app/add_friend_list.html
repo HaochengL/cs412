@@ -3,28 +3,38 @@
 {% load static %}
 
 {% block content %}
+<!-- Page heading for adding friends -->
 <h2>Add Friends</h2>
 
+<!-- Check if there are profiles available to add as friends -->
 {% if profiles %}
     <ul>
+        <!-- Iterate over each profile in the profiles queryset -->
         {% for profile in profiles %}
             <li>
+                <!-- Link to the detailed profile page of the user -->
                 <a href="{% url 'profile_detail' pk=profile.pk %}">
                     {% if profile.photo %}
+                        <!-- Display user's profile photo if available -->
                         <img src="{{ profile.photo.url }}" alt="{{ profile.user.username }}" width="50">
                     {% else %}
+                        <!-- Display default avatar if user has no profile photo -->
                         <img src="{% static 'gym_app/default_avatar.png' %}" alt="Default Avatar" width="50">
                     {% endif %}
+                    <!-- Display the username of the profile -->
                     {{ profile.user.username }}
                 </a>
+                <!-- Form to add the user as a friend -->
                 <form method="post" action="{% url 'add_friend' pk=profile.pk %}" style="display:inline;">
                     {% csrf_token %}
+                    <!-- Submit button to add friend -->
                     <button type="submit">Add Friend</button>
                 </form>
             </li>
         {% endfor %}
     </ul>
 {% else %}
+    <!-- Message displayed when no profiles are available to add as friends -->
     <p>No users available to add as friends.</p>
 {% endif %}
 {% endblock %}

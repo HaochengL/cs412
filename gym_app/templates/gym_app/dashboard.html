@@ -3,8 +3,10 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading for Dashboard -->
 <h2>Dashboard</h2>
 
+<!-- Section for displaying profile information -->
 <h3>Profile Information</h3>
 <p>Username: {{ user.username }}</p>
 <p>Age: {{ user.profile.age }}</p>
@@ -14,8 +16,10 @@
 <p>Experience Level: {{ user.profile.get_experience_level_display }}</p>
 <p>BMI: {{ user.profile.bmi }}</p>
 
+<!-- Section for displaying fitness metrics -->
 <h3>Fitness Metrics</h3>
 <ul>
+    <!-- Iterate over each fitness metric -->
     {% for metric in fitness_metrics %}
         <li>
             Date: {{ metric.date_recorded }},
@@ -23,25 +27,34 @@
             Water Intake: {{ metric.water_intake_liters }} liters
         </li>
     {% empty %}
+        <!-- Message displayed when there are no fitness metrics -->
         <li>No fitness metrics recorded.</li>
     {% endfor %}
 </ul>
+<!-- Link to add a new fitness metric -->
 <a href="{% url 'fitnessmetric_add' %}">Add Fitness Metric</a>
 
+<!-- Section for displaying suggestions -->
 <h3>Suggestions</h3>
 <ul>
+    <!-- Iterate over each suggestion -->
     {% for suggestion in suggestions %}
         <li>
+            <!-- Display the type and text of the suggestion -->
             <strong>{{ suggestion.get_suggestion_type_display }}:</strong> {{ suggestion.suggestion_text }}
         </li>
     {% empty %}
+        <!-- Message displayed when there are no suggestions -->
         <li>No suggestions available.</li>
     {% endfor %}
 </ul>
-<!-- 用户无需手动添加建议，因此不提供添加建议的链接 -->
+<!-- Note: Users do not need to manually add suggestions -->
+<!-- No link provided to add suggestions -->
 
+<!-- Section for displaying workout sessions -->
 <h3>Workout Sessions</h3>
 <ul>
+    <!-- Iterate over each workout session -->
     {% for session in workout_sessions %}
         <li>
             {{ session.session_date }} -
@@ -50,8 +63,10 @@
             Calories Burned: {{ session.calories_burned }}
         </li>
     {% empty %}
+        <!-- Message displayed when there are no workout sessions -->
         <li>No workout sessions recorded.</li>
     {% endfor %}
 </ul>
+<!-- Link to add a new workout session -->
 <a href="{% url 'workoutsession_add' %}">Add Workout Session</a>
 {% endblock %}

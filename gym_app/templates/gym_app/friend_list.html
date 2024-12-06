@@ -3,26 +3,35 @@
 {% load static %}
 
 {% block content %}
+<!-- Page heading for listing friends -->
 <h2>My Friends</h2>
 
+<!-- Check if the user has any friends -->
 {% if friends %}
     <ul>
+        <!-- Iterate over each friend in the friends queryset -->
         {% for friend in friends %}
             <li>
+                <!-- Link to the friend's detailed profile page -->
                 <a href="{% url 'profile_detail' pk=friend.pk %}">
                     {% if friend.photo %}
+                        <!-- Display friend's profile photo if available -->
                         <img src="{{ friend.photo.url }}" alt="{{ friend.user.username }}" width="50">
                     {% else %}
+                        <!-- Display default avatar if friend has no profile photo -->
                         <img src="{% static 'gym_app/default_avatar.png' %}" alt="Default Avatar" width="50">
                     {% endif %}
+                    <!-- Display the friend's username -->
                     {{ friend.user.username }}
                 </a>
             </li>
         {% endfor %}
     </ul>
 {% else %}
+    <!-- Message displayed when the user has no friends -->
     <p>You don't have any friends yet.</p>
 {% endif %}
 
+<!-- Link to add a new friend -->
 <a href="{% url 'add_friend_list' %}">Add Friend</a>
 {% endblock %}

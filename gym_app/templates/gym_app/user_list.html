@@ -1,18 +1,24 @@
 <!-- gym_app/templates/gym_app/user_list.html -->
 {% extends 'gym_app/base_generic.html' %}
-{% load static %}  <!-- Add this line -->
+{% load static %}
 
 {% block content %}
+<!-- Page heading for listing all users -->
 <h2>All Users</h2>
 <ul>
+    <!-- Iterate over each profile in profiles queryset -->
     {% for profile in profiles %}
         <li>
+            <!-- Link to the detailed profile page of the user -->
             <a href="{% url 'profile_detail' pk=profile.pk %}">
                 {% if profile.photo %}
+                    <!-- Display user's profile photo if available -->
                     <img src="{{ profile.photo.url }}" alt="{{ profile.user.username }}" width="50">
                 {% else %}
+                    <!-- Display default avatar if user has no profile photo -->
                     <img src="{% static 'gym_app/default_avatar.png' %}" alt="Default Avatar" width="50">
                 {% endif %}
+                <!-- Display the username of the profile -->
                 {{ profile.user.username }}
             </a>
         </li>

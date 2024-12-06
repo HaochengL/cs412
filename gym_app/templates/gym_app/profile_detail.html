@@ -3,18 +3,24 @@
 {% load static %}
 
 {% block content %}
+<!-- Page heading for viewing a user's profile -->
 <h2>{{ profile.user.username }}'s Profile</h2>
 
+<!-- Check if the profile being viewed belongs to the current user -->
 {% if is_self %}
     <p>This is your profile.</p>
+    <!-- Link to update the profile -->
     <a href="{% url 'profile_update' pk=profile.pk %}" class="button">Update Profile</a>
 
+    <!-- Container for profile information styled as a card -->
     <div class="profile-container card">
         {% if profile.photo %}
+            <!-- Display the user's profile photo if available -->
             <div class="profile-photo">
                 <img src="{{ profile.photo.url }}" alt="{{ profile.user.username }}'s Photo" class="responsive">
             </div>
         {% endif %}
+        <!-- Section for displaying profile details -->
         <div class="profile-info">
             <p><strong>Age:</strong> {{ profile.age }}</p>
             <p><strong>Gender:</strong> {{ profile.get_gender_display }}</p>
@@ -23,6 +29,7 @@
             <p><strong>Experience Level:</strong> {{ profile.get_experience_level_display }}</p>
             <p><strong>BMI:</strong> {{ profile.bmi }}</p>
             {% if fitness_metric %}
+                <!-- Display fitness metrics if available -->
                 <p><strong>Fat Percentage:</strong> {{ fitness_metric.fat_percentage }}%</p>
                 <p><strong>Water Intake:</strong> {{ fitness_metric.water_intake_liters }} liters</p>
             {% endif %}
@@ -30,12 +37,15 @@
     </div>
 
 {% elif is_friend %}
+    <!-- Section for viewing a friend's profile -->
     <div class="profile-container card">
         {% if profile.photo %}
+            <!-- Display friend's profile photo if available -->
             <div class="profile-photo">
                 <img src="{{ profile.photo.url }}" alt="{{ profile.user.username }}'s Photo" class="responsive">
             </div>
         {% endif %}
+        <!-- Section for displaying friend's profile details -->
         <div class="profile-info">
             <p><strong>Age:</strong> {{ profile.age }}</p>
             <p><strong>Gender:</strong> {{ profile.get_gender_display }}</p>
@@ -44,7 +54,7 @@
             <p><strong>Experience Level:</strong> {{ profile.get_experience_level_display }}</p>
             <p><strong>BMI:</strong> {{ profile.bmi }}</p>
 
-            <!-- Fitness Metric -->
+            <!-- Section for displaying friend's fitness metrics -->
             <h3>Fitness Metric</h3>
             {% if fitness_metric %}
                 <p><strong>Fat Percentage:</strong> {{ fitness_metric.fat_percentage }}%</p>
@@ -55,9 +65,10 @@
         </div>
     </div>
 
-    <!-- Workout Sessions -->
+    <!-- Section for displaying friend's workout sessions -->
     <h3>Workout Sessions</h3>
     <ul>
+        <!-- Iterate over each workout session -->
         {% for session in workout_sessions %}
             <li>
                 {{ session.session_date }} -
@@ -66,18 +77,24 @@
                 Calories Burned: {{ session.calories_burned }}
             </li>
         {% empty %}
+            <!-- Message displayed when there are no workout sessions -->
             <li>No workout sessions recorded.</li>
         {% endfor %}
     </ul>
 
+    <!-- Form to remove the friend -->
     <form method="post" action="{% url 'remove_friend' pk=profile.pk %}">
         {% csrf_token %}
+        <!-- Submit button to confirm removal of friend -->
         <button type="submit" class="button delete-button">Remove Friend</button>
     </form>
 {% elif limited_view %}
+    <!-- Message displayed when viewing a profile without being friends -->
     <p>To see more details, add this user as a friend.</p>
+    <!-- Form to add the user as a friend -->
     <form method="post" action="{% url 'add_friend' pk=profile.pk %}">
         {% csrf_token %}
+        <!-- Submit button to add friend -->
         <button type="submit" class="button">Add Friend</button>
     </form>
 {% endif %}

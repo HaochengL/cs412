@@ -3,13 +3,17 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading for listing workout types -->
 <h2>Workout Types</h2>
 <ul>
+    <!-- Iterate over each workout type -->
     {% for workout_type in workout_types %}
         <li>{{ workout_type.name }} - {{ workout_type.description }}</li>
     {% empty %}
+        <!-- Message displayed when there are no workout types -->
         <li>No workout types available.</li>
     {% endfor %}
 </ul>
+<!-- Link to add a new workout type -->
 <a href="{% url 'workouttype_add' %}">Add New Workout Type</a>
 {% endblock %}

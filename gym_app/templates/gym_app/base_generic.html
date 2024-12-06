@@ -5,29 +5,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Character encoding and page title -->
     <meta charset="UTF-8">
     <title>Gym Member Fitness Tracking</title>
+    <!-- Link to the main stylesheet -->
     <link rel="stylesheet" href="{% static 'gym_app/styles.css' %}">
 </head>
 <body>
     <header>
+        <!-- Main heading of the website -->
         <h1>Gym Member Fitness Tracking</h1>
+        <!-- Navigation bar with ARIA label for accessibility -->
         <nav aria-label="Main Navigation">
             <ul>
+                <!-- Home link -->
                 <li><a href="{% url 'home' %}">Home</a></li>
+                <!-- Check if the user is authenticated -->
                 {% if user.is_authenticated %}
+                    <!-- Retrieve the user's profile -->
                     {% with profile=user|get_profile %}
                         {% if profile %}
+                            <!-- Links available to authenticated users with a profile -->
                             <li><a href="{% url 'profile_detail' pk=profile.pk %}">My Profile</a></li>
                             <li><a href="{% url 'friend_list' %}">Friends</a></li>
                             <li><a href="{% url 'chat' %}">Chat</a></li>
                             <li><a href="{% url 'workoutsession_list' %}">Workout Sessions</a></li>
                         {% else %}
+                            <!-- Link to create a profile if one doesn't exist -->
                             <li><a href="{% url 'profile_create' %}">Create Profile</a></li>
                         {% endif %}
                     {% endwith %}
+                    <!-- Logout link for authenticated users -->
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
+                    <!-- Login and Register links for unauthenticated users -->
                     <li><a href="{% url 'login' %}">Login</a></li>
                     <li><a href="{% url 'register' %}">Register</a></li>
                 {% endif %}
@@ -35,19 +46,24 @@
         </nav>
     </header>
     <main>
+        <!-- Display Django messages if any -->
         {% if messages %}
             <ul class="messages">
+                <!-- Iterate over each message -->
                 {% for message in messages %}
+                    <!-- Apply CSS classes based on message tags -->
                     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
                         {{ message }}
                     </li>
                 {% endfor %}
             </ul>
         {% endif %}
+        <!-- Placeholder for page-specific content -->
         {% block content %}
         {% endblock %}
     </main>
     <footer>
+        <!-- Footer content -->
         <p>&copy; 2024 Gym Member Fitness Tracking</p>
     </footer>
 </body>

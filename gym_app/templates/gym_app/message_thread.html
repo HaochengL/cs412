@@ -3,30 +3,43 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading for messaging with another user -->
 <h2>Chat with {{ other_user.username }}</h2>
 
+<!-- Container for the message thread -->
 <div class="message-thread">
-    {% for msg in chat_messages %}  <!-- 修改这里，将 'messages' 改为 'chat_messages' -->
+    <!-- Iterate over each message in the chat -->
+    {% for msg in chat_messages %}  <!-- Modified here: 'messages' changed to 'chat_messages' -->
+        <!-- Display message with styling based on sender -->
         <div class="message {% if msg.sender == request.user %}sent{% else %}received{% endif %}">
             <p>{{ msg.content }}</p>
+            <!-- Display timestamp of the message -->
             <p class="timestamp">{{ msg.timestamp|date:"M d, Y H:i" }}</p>
+            <!-- If the message was sent by the current user, show edit and delete options -->
             {% if msg.sender == request.user %}
                 <p>
+                    <!-- Link to edit the message -->
                     <a href="{% url 'update_message' message_id=msg.id %}" class="button">Edit</a>
+                    <!-- Link to delete the message -->
                     <a href="{% url 'delete_message' message_id=msg.id %}" class="button delete-button">Delete</a>
                 </p>
             {% endif %}
         </div>
     {% empty %}
+        <!-- Message displayed when there are no messages in the thread -->
         <p>No messages yet.</p>
     {% endfor %}
 </div>
 
+<!-- Form to send a new message in the thread -->
 <form method="post" class="chat-form">
     {% csrf_token %}
+    <!-- Display form errors if any -->
     {{ form.non_field_errors }}
     {{ form.content.errors }}
+    <!-- Message input field -->
     {{ form.content }}
+    <!-- Submit button to send the message -->
     <button type="submit" class="send-button">Send</button>
 </form>
 {% endblock %}

@@ -1,11 +1,16 @@
+<!-- gym_app/templates/gym_app/workoutsession_confirm_delete.html -->
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading for deleting a workout session -->
 <h2>Delete Workout Session</h2>
+<!-- Confirmation prompt for deleting the workout session -->
 <p>Are you sure you want to delete this workout session?</p>
 <form method="post">
     {% csrf_token %}
+    <!-- Submit button to confirm deletion -->
     <button type="submit">Yes, Delete</button>
+    <!-- Link to cancel deletion and return to the workout session detail page -->
     <a href="{% url 'workoutsession_detail' pk=object.pk %}">Cancel</a>
 </form>
 {% endblock %}

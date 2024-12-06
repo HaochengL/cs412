@@ -3,12 +3,17 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading dynamically showing "Edit" or "Add" based on object existence -->
 <h2>{% if object %}Edit{% else %}Add{% endif %} Workout Session</h2>
+<!-- Workout session creation or update form -->
 <form method="post">
     {% csrf_token %}
+    <!-- Render form fields as paragraphs -->
     {{ form.as_p }}
+    <!-- Submit button dynamically showing "Update" or "Add" -->
     <button type="submit">{% if object %}Update{% else %}Add{% endif %} Workout Session</button>
 </form>
+<!-- Link to add a new workout type if the desired type is not available -->
 <p>
     Can't find the workout type you're looking for?
     <a href="{% url 'workouttype_add' %}">Add a new workout type.</a>

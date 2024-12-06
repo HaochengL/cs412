@@ -1,16 +1,19 @@
 /* gym_app/static/gym_app/styles.css */
 
-/* 通用样式 */
+/* Global Reset and Universal Styling */
+/* Ensures all elements use box-sizing: border-box and removes default margins and paddings */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+/* Smooth scrolling behavior for the entire HTML document */
 html {
     scroll-behavior: smooth;
 }
 
+/* Body styling: font, text color, background color, and line height */
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     color: #333;
@@ -18,7 +21,7 @@ body {
     line-height: 1.6;
 }
 
-/* 头部和导航栏 */
+/* Header and Navigation Bar Styling */
 header {
     background-color: #2c3e50;
     color: #ecf0f1;
@@ -58,14 +61,14 @@ nav a:hover {
     background-color: #2c3e50;
 }
 
-/* 主体内容 */
+/* Main Content Area Styling */
 main {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1em;
 }
 
-/* 页脚 */
+/* Footer Styling */
 footer {
     background-color: #2c3e50;
     color: #ecf0f1;
@@ -74,7 +77,7 @@ footer {
     margin-top: 2em;
 }
 
-/* 按钮样式 */
+/* Button Styling */
 .button,
 button,
 input[type="submit"] {
@@ -97,7 +100,7 @@ input[type="submit"]:hover {
     background-color: #2980b9;
 }
 
-/* 删除按钮特殊样式 */
+/* Delete Button Specific Styling */
 .delete-button {
     background-color: #e74c3c;
 }
@@ -106,7 +109,7 @@ input[type="submit"]:hover {
     background-color: #c0392b;
 }
 
-/* 表单样式 */
+/* Form Styling */
 form {
     max-width: 600px;
     margin: 2em auto;
@@ -148,7 +151,7 @@ form button {
     width: 100%;
 }
 
-/* 列表样式 */
+/* List Styling */
 ul {
     list-style: none;
     margin: 1em 0;
@@ -189,7 +192,7 @@ li form {
     margin-left: 1em;
 }
 
-/* 卡片布局 */
+/* Card Layout Styling */
 .card {
     background-color: #fff;
     border-radius: 5px;
@@ -212,7 +215,7 @@ li form {
     margin-bottom: 0.5em;
 }
 
-/* 表格样式 */
+/* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -234,7 +237,7 @@ table tr:hover {
     background-color: #f9f9f9;
 }
 
-/* 消息通知 */
+/* Message Notifications Styling */
 .messages {
     max-width: 600px;
     margin: 1em auto;
@@ -262,7 +265,7 @@ table tr:hover {
     color: #8a6d3b;
 }
 
-/* 按钮组 */
+/* Button Group Styling */
 .button-group {
     display: flex;
     flex-wrap: wrap;
@@ -276,7 +279,7 @@ table tr:hover {
     text-align: center;
 }
 
-/* 表单内联样式 */
+/* Inline Form Styling */
 .inline-form {
     display: inline;
     margin: 0;
@@ -287,18 +290,18 @@ table tr:hover {
     padding: 0.5em 1em;
 }
 
-/* 图片样式 */
+/* Responsive Image Styling */
 img.responsive {
     max-width: 100%;
     height: auto;
 }
 
-/* 隐藏元素 */
+/* Hidden Elements */
 .hidden {
     display: none;
 }
 
-/* 可折叠内容 */
+/* Collapsible Content Styling */
 .collapsible {
     background-color: #fff;
     cursor: pointer;
@@ -325,7 +328,7 @@ img.responsive {
     border-radius: 0 0 5px 5px;
 }
 
-/* 表单错误提示 */
+/* Form Error Messages Styling */
 form .errorlist {
     color: #a94442;
     margin-bottom: 1em;
@@ -335,23 +338,23 @@ form .errorlist li {
     list-style: none;
 }
 
-/* 提示文本 */
+/* Help Text Styling */
 .helptext {
     font-size: 0.9em;
     color: #7f8c8d;
 }
 
-/* 悬停卡片效果 */
+/* Hover Effect for Cards */
 .card:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-/* 高亮文本 */
+/* Highlight Text Styling */
 .highlight {
     background-color: #ffffcc;
 }
 
-/* 自定义滚动条 */
+/* Custom Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -369,14 +372,14 @@ form .errorlist li {
     background: #95a5a6;
 }
 
-/* 主页容器 */
+/* Home Container Styling */
 .home-container {
     display: flex;
     flex-direction: column;
     gap: 2em;
 }
 
-/* 欢迎部分 */
+/* Welcome Section Styling */
 .welcome-section {
     background-color: #1abc9c;
     color: #fff;
@@ -394,7 +397,7 @@ form .errorlist li {
     font-size: 1.1em;
 }
 
-/* 建议部分和锻炼会话部分 */
+/* Suggestions and Workout Sessions Section Styling */
 .suggestions-section,
 .workout-sessions-section {
     background-color: #fff;
@@ -424,7 +427,7 @@ form .errorlist li {
     margin-top: 1em;
 }
 
-/* 可视化部分 */
+/* Visualization Section Styling */
 .visualization-section {
     margin-top: 3em;
 }
@@ -448,7 +451,7 @@ form .errorlist li {
     border: none;
 }
 
-/* 个人资料页面样式 */
+/* Profile Page Styling */
 .profile-container {
     display: flex;
     flex-wrap: wrap;
@@ -481,7 +484,7 @@ form .errorlist li {
     color: #2c3e50;
 }
 
-/* 健身教学视频样式 */
+/* Fitness Instructional Videos Styling */
 .fitness-videos {
     margin-top: 2em;
 }
@@ -515,7 +518,7 @@ form .errorlist li {
     border-radius: 5px;
 }
 
-/* 消息线程样式 */
+/* Message Thread Styling */
 .message-thread {
     margin-bottom: 2em;
 }
@@ -539,8 +542,9 @@ form .errorlist li {
     margin-bottom: 0.5em;
 }
 
-/* 响应式设计 */
+/* Responsive Design for Screens with Max Width 768px */
 @media (max-width: 768px) {
+    /* Navigation menu changes to vertical layout */
     nav ul {
         flex-direction: column;
     }
@@ -549,6 +553,7 @@ form .errorlist li {
         margin: 0.5em 0;
     }
 
+    /* List items change to vertical layout */
     li {
         flex-direction: column;
         align-items: flex-start;
@@ -558,11 +563,12 @@ form .errorlist li {
         margin-bottom: 1em;
     }
 
+    /* Adjust form padding for smaller screens */
     form {
         padding: 1.5em;
     }
 
-    /* 个人资料页面响应式 */
+    /* Profile container changes to column layout */
     .profile-container {
         flex-direction: column;
         align-items: center;
@@ -577,7 +583,7 @@ form .errorlist li {
         text-align: center;
     }
 
-    /* 视频区域响应式 */
+    /* Videos occupy full width on smaller screens */
     .video-item {
         flex: 1 1 100%;
     }
@@ -587,71 +593,73 @@ form .errorlist li {
     }
 }
 
+/* Message Thread Inner Styling */
 .message-thread {
-    .message-thread {
-        max-height: 500px;
-        overflow-y: auto;
-        padding: 1em;
-        border: 1px solid #ccc;
-        margin-bottom: 1em;
-        background-color: #fff;
-    }
-    
-    .message {
-        margin-bottom: 1em;
-        max-width: 70%;
-        padding: 0.5em;
-        border-radius: 10px;
-        position: relative;
-    }
-    
-    .message.sent {
-        background-color: #dcf8c6;
-        margin-left: auto;
-        text-align: left;
-    }
-    
-    .message.received {
-        background-color: #f1f0f0;
-        margin-right: auto;
-        text-align: left;
-    }
-    
-    .message .timestamp {
-        font-size: 0.8em;
-        color: #999;
-        text-align: right;
-        margin-top: 0.5em;
-    }
-    
-    .chat-form {
-        display: flex;
-        align-items: center;
-        margin-top: 1em;
-    }
-    
-    .chat-form textarea {
-        flex-grow: 1;
-        padding: 0.5em;
-        resize: none;
-        height: 50px;
-        font-size: 1em;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    
-    .chat-form .send-button {
-        margin-left: 0.5em;
-        padding: 0.5em 1em;
-        font-size: 1em;
-        border: none;
-        border-radius: 5px;
-        background-color: #3498db;
-        color: #fff;
-        cursor: pointer;
-        flex-shrink: 0;
-    }
-    
-    .chat-form .send-button:hover {
-        background-color: #2980b9;
-    }}
+    /* Maximum height with vertical scrolling */
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 1em;
+    border: 1px solid #ccc;
+    margin-bottom: 1em;
+    background-color: #fff;
+}
+
+.message {
+    margin-bottom: 1em;
+    max-width: 70%;
+    padding: 0.5em;
+    border-radius: 10px;
+    position: relative;
+}
+
+.message.sent {
+    background-color: #dcf8c6;
+    margin-left: auto;
+    text-align: left;
+}
+
+.message.received {
+    background-color: #f1f0f0;
+    margin-right: auto;
+    text-align: left;
+}
+
+.message .timestamp {
+    font-size: 0.8em;
+    color: #999;
+    text-align: right;
+    margin-top: 0.5em;
+}
+
+/* Chat Form Styling */
+.chat-form {
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.chat-form textarea {
+    flex-grow: 1;
+    padding: 0.5em;
+    resize: none;
+    height: 50px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.chat-form .send-button {
+    margin-left: 0.5em;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.chat-form .send-button:hover {
+    background-color: #2980b9;
+}

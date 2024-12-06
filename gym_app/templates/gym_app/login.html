@@ -3,11 +3,16 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading for Login -->
 <h2>Login</h2>
+<!-- Login form -->
 <form method="post">
     {% csrf_token %}
+    <!-- Render form fields as paragraphs -->
     {{ form.as_p }}
+    <!-- Submit button for login -->
     <button type="submit">Login</button>
 </form>
+<!-- Link to the registration page for new users -->
 <p>Don't have an account? <a href="{% url 'register' %}">Register here</a>.</p>
 {% endblock %}

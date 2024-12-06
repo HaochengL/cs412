@@ -3,13 +3,20 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading for user registration -->
 <h2>Register</h2>
+<!-- Registration form with file upload capability -->
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <!-- Section for user information fields -->
     <h3>User Information</h3>
+    <!-- Render user-related form fields as paragraphs -->
     {{ user_form.as_p }}
+    <!-- Section for profile information fields -->
     <h3>Profile Information</h3>
+    <!-- Render profile-related form fields as paragraphs -->
     {{ profile_form.as_p }}
+    <!-- Submit button to register the user -->
     <button type="submit" class="button">Register</button>
 </form>
 {% endblock %}

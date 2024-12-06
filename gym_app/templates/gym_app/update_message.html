@@ -3,14 +3,21 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading for editing a message -->
 <h2>Edit Message</h2>
 
+<!-- Form to update the message content -->
 <form method="post">
     {% csrf_token %}
+    <!-- Display non-field errors if any -->
     {{ form.non_field_errors }}
+    <!-- Display field-specific errors for content -->
     {{ form.content.errors }}
+    <!-- Render the content field -->
     {{ form.content }}
+    <!-- Submit button to save changes -->
     <button type="submit" class="button">Save Changes</button>
+    <!-- Link to cancel editing and return to the message thread -->
     <a href="{% url 'message_thread' user_id=message_obj.recipient.id %}" class="button">Cancel</a>
 </form>
 {% endblock %}

@@ -5,110 +5,138 @@
 <div class="home-container">
     <!-- Welcome Section -->
     <div class="welcome-section card">
+        <!-- Personalized welcome message with username -->
         <h2>Welcome, {{ user.username }}!</h2>
+        <!-- Display user's BMI -->
         <p>Your BMI: {{ profile.bmi }}</p>
+        <!-- Display user's experience level -->
         <p>Your Experience Level: {{ profile.get_experience_level_display }}</p>
     </div>
 
-    <!-- Fitness Suggestions -->
+    <!-- Fitness Suggestions Section -->
     <div class="suggestions-section card">
+        <!-- Heading for fitness suggestions -->
         <h2>Fitness Suggestions</h2>
         <ul>
+            <!-- Iterate over each suggestion -->
             {% for suggestion in suggestions %}
                 <li>
+                    <!-- Display the type and text of the suggestion -->
                     <strong>{{ suggestion.get_suggestion_type_display }}:</strong> {{ suggestion.suggestion_text }}
                 </li>
             {% empty %}
+                <!-- Message displayed when there are no suggestions -->
                 <li>No suggestions available.</li>
             {% endfor %}
         </ul>
 
-        <!-- Fitness Instructional Videos -->
+        <!-- Fitness Instructional Videos Section -->
         <div class="fitness-videos">
             <h3>Fitness Instructional Videos</h3>
             <div class="video-grid">
                 <!-- Video 1: Strength Training -->
                 <div class="video-item">
                     <h4>Strength Training</h4>
+                    <!-- Embedded YouTube video for Strength Training -->
                     <iframe src="https://www.youtube.com/embed/fD4OyUDfL3U" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <!-- Video 2: Yoga -->
                 <div class="video-item">
                     <h4>Yoga</h4>
+                    <!-- Embedded YouTube video for Yoga -->
                     <iframe src="https://www.youtube.com/embed/T41mYCmtWls" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <!-- Video 3: HIIT -->
                 <div class="video-item">
                     <h4>HIIT</h4>
+                    <!-- Embedded YouTube video for HIIT -->
                     <iframe src="https://www.youtube.com/embed/-hSma-BRzoo" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Recent Workout Sessions -->
+    <!-- Recent Workout Sessions Section -->
     <div class="workout-sessions-section card">
         <h2>Recent Workout Sessions</h2>
         <ul>
+            <!-- Iterate over recent workout sessions -->
             {% for session in recent_workout_sessions %}
                 <li>
+                    <!-- Display details of each workout session -->
                     {{ session.session_date }} - {{ session.workout_type.name }} - Duration: {{ session.session_duration_hours }} hours - Calories Burned: {{ session.calories_burned }}
                 </li>
             {% empty %}
+                <!-- Message displayed when there are no recent workout sessions -->
                 <li>No recent workout sessions recorded.</li>
             {% endfor %}
         </ul>
+        <!-- Link to add a new workout session -->
         <a href="{% url 'workoutsession_add' %}" class="button">Add Workout Session</a>
     </div>
 </div>
 
-<!-- Gym Statistics Data Visualization -->
+<!-- Gym Statistics Data Visualization Section -->
 <div class="visualization-section">
     <h2>Gym Statistics Data Visualization</h2>
+    <!-- Button to toggle the visibility of the visualization content -->
     <button id="toggle-visualization" class="button">Show Visualization</button>
 
+    <!-- Container for visualization content, initially hidden -->
     <div id="visualization-content" style="display: none;">
-        <!-- Filter Form -->
+        <!-- Filter Form for data visualization -->
         <div class="filter-form card">
             <form method="get">
+                <!-- Render filter form fields -->
                 {{ filter_form.as_p }}
+                <!-- Submit button for filtering data -->
                 <button type="submit" class="button">Filter</button>
             </form>
         </div>
 
-        <!-- Display Charts -->
+        <!-- Display Chart 1 if available -->
         {% if graph1 %}
             <div class="chart-container">
+                <!-- Render the first graph -->
                 {{ graph1|safe }}
             </div>
         {% endif %}
 
+        <!-- Display Chart 2 if available -->
         {% if graph2 %}
             <div class="chart-container">
+                <!-- Render the second graph -->
                 {{ graph2|safe }}
             </div>
         {% endif %}
 
+        <!-- Display Chart 3 if available -->
         {% if graph3 %}
             <div class="chart-container">
+                <!-- Render the third graph -->
                 {{ graph3|safe }}
             </div>
         {% endif %}
 
+        <!-- Display Chart 4 if available -->
         {% if graph4 %}
             <div class="chart-container">
+                <!-- Render the fourth graph -->
                 {{ graph4|safe }}
             </div>
         {% endif %}
 
+        <!-- Display Chart 5 if available -->
         {% if graph5 %}
             <div class="chart-container">
+                <!-- Render the fifth graph -->
                 {{ graph5|safe }}
             </div>
         {% endif %}
     </div>
 </div>
 
+<!-- JavaScript to handle the toggle functionality for visualization -->
 <script>
     document.getElementById('toggle-visualization').addEventListener('click', function() {
         var content = document.getElementById('visualization-content');

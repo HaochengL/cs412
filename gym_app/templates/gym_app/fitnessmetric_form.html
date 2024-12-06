@@ -2,10 +2,14 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading dynamically showing "Edit" or "Add" based on object existence -->
 <h2>{% if object %}Edit{% else %}Add{% endif %} Fitness Metric</h2>
+<!-- Form for creating or updating a fitness metric -->
 <form method="post">
     {% csrf_token %}
+    <!-- Render form fields as paragraphs -->
     {{ form.as_p }}
+    <!-- Submit button dynamically showing "Update" or "Add" -->
     <button type="submit">{% if object %}Update{% else %}Add{% endif %} Fitness Metric</button>
 </form>
 {% endblock %}

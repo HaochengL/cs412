@@ -3,24 +3,25 @@
 {% load static %}
 
 {% block content %}
+<!-- Page heading for listing workout sessions -->
 <h2>My Workout Sessions</h2>
+<!-- Link to add a new workout session -->
 <a href="{% url 'workoutsession_add' %}" class="button">Add New Workout Session</a>
 <ul>
+    <!-- Iterate over each workout session -->
     {% for session in workout_sessions %}
         <li>
+            <!-- Link to the detailed view of the workout session -->
             <a href="{% url 'workoutsession_detail' pk=session.pk %}">
                 {{ session.workout_type.name }} on {{ session.session_date }}
             </a>
         </li>
     {% empty %}
+        <!-- Message displayed when there are no workout sessions -->
         <li>No workout sessions found.</li>
     {% endfor %}
 </ul>
-<p>
-    Can't find the workout type you're looking for?
-    <a href="{% url 'workouttype_add' %}">Add a new workout type.</a>
-</p>
-
+<!-- Section for displaying fitness metrics -->
 <!-- Fitness Metric Section -->
 <h2>My Fitness Metric</h2>
 {% if fitness_metric %}
@@ -28,15 +29,21 @@
         Fat Percentage: {{ fitness_metric.fat_percentage }}%<br>
         Water Intake: {{ fitness_metric.water_intake_liters }} liters
     </p>
+    <!-- Group of buttons for updating or deleting fitness metrics -->
     <div class="button-group">
+        <!-- Link to update fitness metrics -->
         <a href="{% url 'fitnessmetric_update' %}" class="button">Update Fitness Metric</a>
+        <!-- Form to delete fitness metrics -->
         <form method="post" action="{% url 'fitnessmetric_delete' pk=fitness_metric.pk %}" class="inline-form">
             {% csrf_token %}
+            <!-- Submit button to delete fitness metric -->
             <button type="submit" class="button delete-button">Delete Fitness Metric</button>
         </form>
     </div>
 {% else %}
+    <!-- Message displayed when there are no fitness metrics -->
     <p>You have not added a fitness metric yet.</p>
+    <!-- Link to add a new fitness metric -->
     <a href="{% url 'fitnessmetric_add' %}" class="button">Add Fitness Metric</a>
 {% endif %}
 {% endblock %}

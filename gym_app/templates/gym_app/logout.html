@@ -3,7 +3,10 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading for Logout -->
 <h2>Logout</h2>
+<!-- Confirmation message for logout -->
 <p>You have been logged out.</p>
+<!-- Link to the login page after logout -->
 <a href="{% url 'login' %}">Login again</a>
 {% endblock %}

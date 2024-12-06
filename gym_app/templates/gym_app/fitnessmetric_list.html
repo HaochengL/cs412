@@ -3,8 +3,10 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading for listing fitness metrics -->
 <h2>My Fitness Metrics</h2>
 <ul>
+    <!-- Iterate over each fitness metric -->
     {% for metric in fitness_metrics %}
         <li>
             Date: {{ metric.date_recorded }},
@@ -12,8 +14,10 @@
             Water Intake: {{ metric.water_intake_liters }} liters
         </li>
     {% empty %}
+        <!-- Message displayed when there are no fitness metrics -->
         <li>No fitness metrics recorded.</li>
     {% endfor %}
 </ul>
+<!-- Link to add a new fitness metric -->
 <a href="{% url 'fitnessmetric_add' %}">Add New Fitness Metric</a>
 {% endblock %}

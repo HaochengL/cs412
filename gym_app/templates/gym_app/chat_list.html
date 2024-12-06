@@ -3,26 +3,35 @@
 {% extends 'gym_app/base_generic.html' %}
 
 {% block content %}
+<!-- Page heading for Chat -->
 <h2>Chat</h2>
 
+<!-- Section for displaying user's conversations -->
 <h3>Your Conversations</h3>
 <ul>
+    <!-- Iterate over each user in conversations -->
     {% for user in conversations %}
         <li>
+            <!-- Link to the message thread with the selected user -->
             <a href="{% url 'message_thread' user_id=user.id %}">{{ user.username }}</a>
         </li>
     {% empty %}
+        <!-- Message displayed when there are no conversations -->
         <li>You have no conversations yet.</li>
     {% endfor %}
 </ul>
 
+<!-- Section for displaying user's friends -->
 <h3>Your Friends</h3>
 <ul>
+    <!-- Iterate over each friend in friends queryset -->
     {% for friend in friends %}
         <li>
+            <!-- Link to the message thread with the friend -->
             <a href="{% url 'message_thread' user_id=friend.user.id %}">{{ friend.user.username }}</a>
         </li>
     {% empty %}
+        <!-- Message displayed when there are no friends -->
         <li>You have no friends yet.</li>
     {% endfor %}
 </ul>
