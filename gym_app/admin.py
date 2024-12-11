@@ -1,4 +1,6 @@
 # gym_app/admin.py
+# Author: Haocheng Liu <easonlhc@bu.edu>
+# Description: This file registers models with the Django admin site to manage them via the admin interface.
 
 from django.contrib import admin
 from .models import (

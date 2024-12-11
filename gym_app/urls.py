@@ -1,4 +1,6 @@
 # gym_app/urls.py
+# Author: Haocheng Liu <easonlhc@bu.edu>
+# Description: This file defines URL patterns for the gym_app, mapping URLs to their corresponding views.
 
 from django.urls import path
 from . import views

@@ -1,4 +1,8 @@
 # gym_app/views.py
+# Author: Haocheng Liu <easonlhc@bu.edu>
+# Description: This file contains Django view classes and functions for handling user interactions,
+#              including authentication, profile management, workout sessions, fitness metrics,
+#              suggestions, friendships, and messaging.
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View

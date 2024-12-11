@@ -1,4 +1,6 @@
 # gym_app/utils.py
+# Author: Haocheng Liu <easonlhc@bu.edu>
+# Description: This file contains utility functions used across the gym_app, including suggestion generation.
 
 def generate_suggestions(profile):
     suggestions = []

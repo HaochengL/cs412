@@ -1,4 +1,7 @@
 # gym_app/forms.py
+# Author: Haocheng Liu <easonlhc@bu.edu>
+# Description: This file contains Django form classes for user registration, profile management, workout sessions,
+#              fitness metrics, suggestions, workout types, data filtering, and messaging.
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm

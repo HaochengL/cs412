@@ -1,6 +1,10 @@
-/* gym_app/static/gym_app/styles.css */
-
-/* Global Reset and Universal Styling */
+/* 
+    styles.css
+    Author: Haocheng Liu <easonlhc@bu.edu>
+    Description: This stylesheet defines the visual appearance and layout for the gym_app Django application.
+                 It includes styles for the overall layout, navigation bar, forms, buttons, lists, 
+                 responsive design, and specific components like message threads and chat interfaces.
+*/
 /* Ensures all elements use box-sizing: border-box and removes default margins and paddings */
 * {
     box-sizing: border-box;

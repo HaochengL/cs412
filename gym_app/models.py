@@ -1,4 +1,7 @@
 # gym_app/models.py
+# Author: Haocheng Liu <easonlhc@bu.edu>
+# Description: This file defines the Django models for profiles, workout types, workout sessions,
+#              fitness metrics, suggestions, member data for analytics, friendships, and messaging.
 
 from django.db import models
 from django.contrib.auth.models import User

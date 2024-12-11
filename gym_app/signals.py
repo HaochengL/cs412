@@ -1,4 +1,7 @@
 # gym_app/signals.py
+# Author: Haocheng Liu <easonlhc@bu.edu>
+# Description: This file contains signal handlers that generate suggestions based on workout sessions and fitness metrics.
+
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
